@@ -1,8 +1,13 @@
+import GlobalStyles from './styles/GlobalStyles';
+
 const App = () => {
   return (
-    <div>
-      <h1>Wild Oasis</h1>
-    </div>
+    <>
+      <GlobalStyles />
+      <div>
+        <h1>Wild Oasis</h1>
+      </div>
+    </>
   );
 };
 
