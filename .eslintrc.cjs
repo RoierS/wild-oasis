@@ -7,6 +7,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
     'plugin:import/typescript',
+    'plugin:styled-components-a11y/recommended',
     'plugin:prettier/recommended',
     'prettier',
   ],
@@ -32,6 +33,7 @@ module.exports = {
     'react-hooks',
     'prettier',
     'import',
+    'styled-components-a11y',
     '@typescript-eslint',
   ],
   rules: {
