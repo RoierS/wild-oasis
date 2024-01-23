@@ -9,7 +9,7 @@ import PageNotFound from './pages/PageNotFound';
 import Settings from './pages/Settings';
 import Users from './pages/Users';
 import GlobalStyles from './styles/GlobalStyles';
-import AppLayout from './ui/AppLayout';
+import AppLayout from './ui/AppLayout/AppLayout';
 
 const App = () => {
   return (

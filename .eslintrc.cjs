@@ -162,7 +162,8 @@ module.exports = {
       version: 'detect',
     },
     'import/resolver': {
-      typescript: {},
+      typescript: {
+      },
     },
   },
 };
