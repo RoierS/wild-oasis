@@ -1,8 +1,11 @@
 import { useForm } from 'react-hook-form';
 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
-import { IInputsFormProps } from '@/types/form';
+import { createCabin } from '@/services/apiCabins';
+import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
 import FileInput from '@/ui/FileInput/FileInput';
 import Form from '@/ui/Form/Form';
@@ -46,11 +49,26 @@ const Label = styled.label`
 // `;
 
 const CreateCabinForm = () => {
-  const { register, handleSubmit, reset } = useForm<IInputsFormProps>();
+  const queryClient = useQueryClient();
 
-  const onSubmit = (data: IInputsFormProps) => {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  const { isPending: isCreating, mutate } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+
+      toast.success('New cabin added');
+      reset();
+    },
+
+    onError: (err) => toast.error(err.message),
+  });
+
+  const { register, handleSubmit, reset } = useForm<ICabin>();
+
+  const onSubmit = (data: ICabin) => {
+    mutate(data);
   };
 
   return (
@@ -104,7 +122,7 @@ const CreateCabinForm = () => {
         >
           Cancel
         </Button>
-        <Button $variation="secondary" $size="medium">
+        <Button $variation="secondary" $size="medium" disabled={isCreating}>
           Add cabin
         </Button>
       </FormRow>
