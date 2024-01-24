@@ -9,7 +9,7 @@ const Cabins = () => {
         <Heading as="h1">All cabins</Heading>
       </Row>
 
-      <Row $type="horizontal">
+      <Row $type="vertical">
         <CabinTable />
       </Row>
     </>

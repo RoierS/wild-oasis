@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import { MdDelete } from 'react-icons/md';
 import styled from 'styled-components';
 
@@ -68,15 +69,17 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
       queryClient.invalidateQueries({
         queryKey: ['cabins'],
       });
+
+      toast.success('Cabin deleted');
     },
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return (
     <TableRow role="row">
       <Img src={`${image}`} alt={`${name}`} />
       <Cabin>{name}</Cabin>
-      <div>{maxCapacity}</div>
+      <div>Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice!)}</Price>
       <Discount>{discount ? formatCurrency(discount) : 0}</Discount>
       <Button
