@@ -1,6 +1,8 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { MdDelete } from 'react-icons/md';
 import styled from 'styled-components';
 
+import { deleteCabin } from '@/services/apiCabins';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
 import { formatCurrency } from '@/utils/helpers';
@@ -49,7 +51,26 @@ interface CabinRowProps {
 }
 
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
-  const { name, maxCapacity, image, regularPrice, discount } = cabin;
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    image,
+    regularPrice,
+    discount,
+  } = cabin;
+
+  const queryClient = useQueryClient();
+
+  const { isPending: isDeleting, mutate } = useMutation({
+    mutationFn: deleteCabin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['cabins'],
+      });
+    },
+    onError: (err) => alert(err.message),
+  });
 
   return (
     <TableRow role="row">
@@ -58,7 +79,12 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
       <div>{maxCapacity}</div>
       <Price>{formatCurrency(regularPrice!)}</Price>
       <Discount>{discount ? formatCurrency(discount) : 0}</Discount>
-      <Button $size="small" $variation="danger">
+      <Button
+        $size="small"
+        $variation="danger"
+        onClick={() => mutate(cabinId)}
+        disabled={isDeleting}
+      >
         <MdDelete />
       </Button>
     </TableRow>
