@@ -53,9 +53,7 @@ const CreateCabinForm = () => {
           type="text"
           id="name"
           disabled={isCreating}
-          {...register('name', {
-            required: 'This field is required',
-          })}
+          {...register('name')}
         />
       </FormRow>
 
@@ -79,9 +77,7 @@ const CreateCabinForm = () => {
           type="number"
           id="regularPrice"
           disabled={isCreating}
-          {...register('regularPrice', {
-            required: 'This field is required',
-          })}
+          {...register('regularPrice')}
         />
       </FormRow>
 
@@ -90,9 +86,7 @@ const CreateCabinForm = () => {
           type="number"
           id="discount"
           disabled={isCreating}
-          {...register('discount', {
-            required: 'This field is required',
-          })}
+          {...register('discount')}
         />
       </FormRow>
 
@@ -104,14 +98,18 @@ const CreateCabinForm = () => {
           type="number"
           id="description"
           disabled={isCreating}
-          {...register('description', {
-            required: 'This field is required',
-          })}
+          {...register('description')}
         />
       </FormRow>
 
       <FormRow labelName="Cabin photo" errorMessage={errors?.image?.message}>
-        <FileInput id="image" accept="image/*" disabled={isCreating} />
+        <FileInput
+          id="image"
+          accept="image/*"
+          type="file"
+          disabled={isCreating}
+          {...register('image')}
+        />
       </FormRow>
 
       <FormRow>
