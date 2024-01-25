@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { schemaForm } from '@/constants/schemaForm';
 import { createCabin } from '@/services/apiCabins';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
@@ -35,6 +38,7 @@ const CreateCabinForm = () => {
     formState: { errors },
     reset,
   } = useForm<ICabin>({
+    resolver: yupResolver(schemaForm),
     mode: 'onChange',
   });
 
@@ -63,13 +67,7 @@ const CreateCabinForm = () => {
           type="number"
           id="maxCapacity"
           disabled={isCreating}
-          {...register('maxCapacity', {
-            required: 'This field is required',
-            max: {
-              value: 10,
-              message: 'Capacity cannot be greater than 10',
-            },
-          })}
+          {...register('maxCapacity')}
         />
       </FormRow>
 
@@ -129,22 +127,6 @@ const CreateCabinForm = () => {
           Add cabin
         </Button>
       </FormRow>
-
-      {/* 
-
-      <FormRow>
-        <Button
-          $variation="secondary"
-          $size="medium"
-          type="reset"
-          onClick={() => reset()}
-        >
-          Cancel
-        </Button>
-        <Button $variation="secondary" $size="medium" disabled={isCreating}>
-          Add cabin
-        </Button>
-      </FormRow> */}
     </Form>
   );
 };
