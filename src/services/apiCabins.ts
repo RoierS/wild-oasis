@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import { ICabin } from '@/types/cabin';
 import { IFormData } from '@/types/formData';
 
 import supabase, { supabaseUrl } from './supabase';
@@ -17,8 +18,19 @@ export const getCabins = async () => {
 };
 
 // delete cabin by Id
-export const deleteCabin = async (id: number) => {
-  const { data, error } = await supabase.from('cabins').delete().eq('id', id);
+export const deleteCabin = async (cabin: ICabin) => {
+  const { data, error } = await supabase
+    .from('cabins')
+    .delete()
+    .eq('id', cabin.id);
+
+  //also delete cacin image from database
+  if (cabin.image) {
+    const imageName = cabin.image.split('/').pop();
+    if (imageName) {
+      await supabase.storage.from('cabin-images').remove([imageName]);
+    }
+  }
 
   if (error) {
     console.error(error);

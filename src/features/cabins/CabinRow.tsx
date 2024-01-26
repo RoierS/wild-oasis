@@ -52,14 +52,7 @@ interface CabinRowProps {
 }
 
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
-  const {
-    id: cabinId,
-    name,
-    maxCapacity,
-    image,
-    regularPrice,
-    discount,
-  } = cabin;
+  const { name, maxCapacity, image, regularPrice, discount } = cabin;
 
   const queryClient = useQueryClient();
 
@@ -86,11 +79,11 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
         $size="small"
         $variation="danger"
         onClick={() => {
-          if (cabinId) mutate(cabinId);
+          mutate(cabin);
         }}
         disabled={isDeleting}
       >
-        <MdDelete />
+        {isDeleting ? 'Deleting...' : <MdDelete />}
       </Button>
     </TableRow>
   );
