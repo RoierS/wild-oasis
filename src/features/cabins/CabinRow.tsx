@@ -85,7 +85,9 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
       <Button
         $size="small"
         $variation="danger"
-        onClick={() => mutate(cabinId)}
+        onClick={() => {
+          if (cabinId) mutate(cabinId);
+        }}
         disabled={isDeleting}
       >
         <MdDelete />

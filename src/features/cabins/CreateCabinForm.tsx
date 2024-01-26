@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { schemaForm } from '@/constants/schemaForm';
 import { createCabin } from '@/services/apiCabins';
-import { ICabin } from '@/types/cabin';
+import { IFormData } from '@/types/formData';
 import Button from '@/ui/Button/Button';
 import FileInput from '@/ui/FileInput/FileInput';
 import Form from '@/ui/Form/Form';
@@ -17,6 +17,15 @@ import Textarea from '@/ui/Textarea/Textarea';
 
 const CreateCabinForm = () => {
   const queryClient = useQueryClient();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<IFormData>({
+    resolver: yupResolver(schemaForm),
+    mode: 'onChange',
+  });
 
   const { isPending: isCreating, mutate } = useMutation({
     mutationFn: createCabin,
@@ -32,18 +41,8 @@ const CreateCabinForm = () => {
     onError: (err) => toast.error(err.message),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<ICabin>({
-    resolver: yupResolver(schemaForm),
-    mode: 'onChange',
-  });
-
-  const onSubmit = (data: ICabin) => {
-    mutate(data);
+  const onSubmit: SubmitHandler<IFormData> = (data) => {
+    mutate({ ...data, image: data.image });
   };
 
   return (
@@ -86,6 +85,7 @@ const CreateCabinForm = () => {
           type="number"
           id="discount"
           disabled={isCreating}
+          defaultValue={0}
           {...register('discount')}
         />
       </FormRow>
@@ -95,7 +95,7 @@ const CreateCabinForm = () => {
         errorMessage={errors?.description?.message}
       >
         <Textarea
-          type="number"
+          type="text"
           id="description"
           disabled={isCreating}
           {...register('description')}
@@ -113,15 +113,16 @@ const CreateCabinForm = () => {
       </FormRow>
 
       <FormRow>
+        <Button $variation="secondary" $size="medium" type="reset">
+          Cancel
+        </Button>
+
         <Button
           $variation="secondary"
           $size="medium"
-          type="reset"
-          onClick={() => reset()}
+          disabled={isCreating}
+          type="submit"
         >
-          Cancel
-        </Button>
-        <Button $variation="secondary" $size="medium" disabled={isCreating}>
           Add cabin
         </Button>
       </FormRow>

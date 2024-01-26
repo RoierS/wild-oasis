@@ -1,35 +1,45 @@
 import * as yup from 'yup';
 
-import { validationErorrs } from './validatioErrors';
+import { IFormData } from '@/types/formData';
 
-export const schemaForm = yup
+import { validationErrors } from './validatioErrors';
+
+export const schemaForm: yup.ObjectSchema<IFormData> = yup
   .object({
-    name: yup.string().required(validationErorrs.required()),
+    name: yup.string().required(validationErrors.required()),
     maxCapacity: yup
       .number()
-      .typeError(validationErorrs.required())
+      .typeError(validationErrors.required())
       .positive()
       .integer()
-      .required(validationErorrs.required())
-      .min(1, validationErorrs.minValue(1, 'capacity'))
-      .max(10, validationErorrs.maxValue(10, 'capacity')),
+      .required(validationErrors.required())
+      .min(1, validationErrors.minValue(1, 'capacity'))
+      .max(10, validationErrors.maxValue(10, 'capacity')),
     regularPrice: yup
       .number()
-      .typeError(validationErorrs.required())
-      .required(validationErorrs.required())
-      .min(1, validationErorrs.minValue(1, 'price'))
+      .typeError(validationErrors.required())
+      .required(validationErrors.required())
+      .min(1, validationErrors.minValue(1, 'price'))
       .integer(),
     discount: yup
       .number()
-      .typeError(validationErorrs.required())
-      .required(validationErorrs.required())
+      .typeError(validationErrors.required())
+      .required(validationErrors.required())
       .integer()
-      .min(0, validationErorrs.minValue(0, 'discount'))
+      .min(0, validationErrors.minValue(0, 'discount'))
       .test(
         'isLessThanRegularPrice',
-        validationErorrs.lessThanRegularPrice(),
+        validationErrors.lessThanRegularPrice(),
         (value, { parent }) => value <= parent.regularPrice,
       ),
-    description: yup.string().required(validationErorrs.required()),
+    description: yup.string().required(validationErrors.required()),
+    image: yup
+      .mixed<FileList>()
+      .test(
+        'isImageAdded',
+        'Please add an image',
+        (value) => value instanceof FileList && value.length > 0,
+      )
+      .required(validationErrors.required()),
   })
   .required();

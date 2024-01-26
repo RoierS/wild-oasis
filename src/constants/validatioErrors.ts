@@ -1,4 +1,4 @@
-export const validationErorrs = {
+export const validationErrors = {
   required: () => 'This field is required',
   digit: () => 'This field must contain numbers',
   minValue: (count: number, valueName: string) =>
