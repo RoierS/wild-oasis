@@ -43,13 +43,17 @@ export const deleteCabin = async (cabin: ICabin) => {
 
 // upload image file to supabase
 const uploadImage = async (image: File) => {
+  if (typeof image === 'string') {
+    return { path: image };
+  }
+
   const imageName = `${Math.random()}-${image.name}`.replaceAll('/', '');
+
+  const path = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   const { error: storageError } = await supabase.storage
     .from('cabin-images')
     .upload(imageName, image);
-
-  const path = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
   return { path, error: storageError };
 };

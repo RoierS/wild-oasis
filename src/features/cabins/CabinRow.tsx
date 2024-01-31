@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { MdDelete } from 'react-icons/md';
+import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 import styled from 'styled-components';
 
+import { useCreateCabin } from '@/hooks/useCreateCabin';
 import { useDeleteCabin } from '@/hooks/useDeleteCabin';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
@@ -57,9 +58,21 @@ interface CabinRowProps {
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
   const [isShowForm, setIsShowForm] = useState(false);
   const { isDeleting, mutate: deleteCabin } = useDeleteCabin();
+  const { isCreating, createNewCabin } = useCreateCabin();
 
-  const { name, maxCapacity, image, regularPrice, discount } = cabin;
+  const { name, maxCapacity, image, regularPrice, discount, description } =
+    cabin;
 
+  const handleDuplicate = () => {
+    createNewCabin({
+      name: `${name} copy`,
+      maxCapacity,
+      image,
+      regularPrice,
+      discount,
+      description,
+    });
+  };
   return (
     <>
       <TableRow role="row">
@@ -74,12 +87,20 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
           <Button
             $size="small"
             $variation="primary"
+            disabled={isCreating}
+            onClick={handleDuplicate}
+          >
+            <HiSquare2Stack />
+          </Button>
+          <Button
+            $size="small"
+            $variation="primary"
             disabled={isDeleting}
             onClick={() => {
               setIsShowForm((show) => !show);
             }}
           >
-            Edit
+            <HiPencil />
           </Button>
           <Button
             $size="small"
@@ -89,7 +110,7 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
             }}
             disabled={isDeleting}
           >
-            {isDeleting ? 'Deleting...' : <MdDelete />}
+            {isDeleting ? 'Deleting...' : <HiTrash />}
           </Button>
         </Row>
       </TableRow>
