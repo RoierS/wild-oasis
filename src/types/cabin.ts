@@ -1,9 +1,10 @@
 export interface ICabin {
-  description: string;
-  discount: number;
+  created_at?: string;
+  description: string | null;
+  discount: number | null;
   id?: number;
-  image?: string | File | FileList;
-  maxCapacity: number;
-  name: string;
-  regularPrice: number;
+  image?: string | File | FileList | null;
+  maxCapacity: number | null;
+  name: string | null;
+  regularPrice: number | null;
 }

@@ -35,6 +35,7 @@ export const schemaForm: yup.ObjectSchema<ICabin> = yup
       ),
     description: yup.string().required(validationErrors.required()),
     id: yup.number().optional(),
+    created_at: yup.string().optional(),
     image: yup
       .mixed<FileList>()
       .test('isImageAdded', 'Please add an image', (value, { parent }) => {
