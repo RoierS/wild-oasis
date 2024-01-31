@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import styled from 'styled-components';
 
-import { getCabins } from '@/services/apiCabins';
+import { useCabins } from '@/hooks/useCabins';
 import Spinner from '@/ui/Spinner/Spinner';
 
 import CabinRow from './CabinRow';
@@ -31,16 +31,11 @@ const TableHeader = styled.header`
 `;
 
 const CabinTable: React.FC = () => {
-  const {
-    isLoading,
-    data: cabins,
-    // error,
-  } = useQuery({
-    queryKey: ['cabins'],
-    queryFn: getCabins,
-  });
+  const { isLoading, cabins, error } = useCabins();
 
   if (isLoading) return <Spinner />;
+
+  if (error) toast.error(error.message);
 
   return (
     <Table role="table">
