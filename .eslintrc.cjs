@@ -151,7 +151,7 @@ module.exports = {
     'import/first': 'error',
     'import/no-duplicates': 'error',
     quotes: ['error', 'single'],
-    'no-console': 'error',
+    'no-console': ["error", { "allow": ["error"] }],
     'no-debugger': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/no-explicit-any': 'error',

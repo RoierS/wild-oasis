@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ICabin } from '@/types/cabin';
 
 import supabase, { supabaseUrl } from './supabase';
