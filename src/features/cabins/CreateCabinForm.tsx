@@ -122,12 +122,7 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
         labelName="Description for website"
         errorMessage={errors?.description?.message}
       >
-        <Textarea
-          type="text"
-          id="description"
-          disabled={isWorking}
-          {...register('description')}
-        />
+        <Textarea type="text" id="description" {...register('description')} />
       </FormRow>
 
       <FormRow labelName="Cabin photo" errorMessage={errors?.image?.message}>

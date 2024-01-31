@@ -82,7 +82,9 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice!)}</Price>
-        <Discount>{discount ? formatCurrency(discount) : 0}</Discount>
+        <Discount>
+          {discount ? formatCurrency(discount) : <span>&mdash;</span>}
+        </Discount>
         <Row $type="horizontal">
           <Button
             $size="small"
