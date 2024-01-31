@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { MdDelete } from 'react-icons/md';
@@ -6,7 +8,10 @@ import styled from 'styled-components';
 import { deleteCabin } from '@/services/apiCabins';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
+import Row from '@/ui/Row/Row';
 import { formatCurrency } from '@/utils/helpers';
+
+import CreateCabinForm from './CreateCabinForm';
 
 const TableRow = styled.div`
   display: grid;
@@ -52,6 +57,8 @@ interface CabinRowProps {
 }
 
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
+  const [isShowForm, setIsShowForm] = useState(false);
+
   const { name, maxCapacity, image, regularPrice, discount } = cabin;
 
   const queryClient = useQueryClient();
@@ -69,23 +76,39 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
   });
 
   return (
-    <TableRow role="row">
-      <Img src={`${image}`} alt={`${name}`} />
-      <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice!)}</Price>
-      <Discount>{discount ? formatCurrency(discount) : 0}</Discount>
-      <Button
-        $size="small"
-        $variation="danger"
-        onClick={() => {
-          mutate(cabin);
-        }}
-        disabled={isDeleting}
-      >
-        {isDeleting ? 'Deleting...' : <MdDelete />}
-      </Button>
-    </TableRow>
+    <>
+      <TableRow role="row">
+        <Img src={`${image}`} alt={`${name}`} />
+        <Cabin>{name}</Cabin>
+        <div>Fits up to {maxCapacity} guests</div>
+        <Price>{formatCurrency(regularPrice!)}</Price>
+        <Discount>{discount ? formatCurrency(discount) : 0}</Discount>
+        <Row $type="horizontal">
+          <Button
+            $size="small"
+            $variation="primary"
+            disabled={isDeleting}
+            onClick={() => {
+              setIsShowForm((show) => !show);
+            }}
+          >
+            Edit
+          </Button>
+          <Button
+            $size="small"
+            $variation="danger"
+            onClick={() => {
+              mutate(cabin);
+            }}
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Deleting...' : <MdDelete />}
+          </Button>
+        </Row>
+      </TableRow>
+
+      {isShowForm && <CreateCabinForm cabinToEdit={cabin} />}
+    </>
   );
 };
 

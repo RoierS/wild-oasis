@@ -1,13 +1,11 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { schemaForm } from '@/constants/schemaForm';
-import { createCabin } from '@/services/apiCabins';
-import { IFormData } from '@/types/formData';
+import { useCreateCabin } from '@/hooks/useCreateCabin';
+import { useUpdateCabin } from '@/hooks/useUpdateCabin';
+import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
 import FileInput from '@/ui/FileInput/FileInput';
 import Form from '@/ui/Form/Form';
@@ -15,34 +13,60 @@ import FormRow from '@/ui/FormRow/FormRow';
 import Input from '@/ui/Input/Input';
 import Textarea from '@/ui/Textarea/Textarea';
 
-const CreateCabinForm = () => {
-  const queryClient = useQueryClient();
+interface CreateCabinFormProps {
+  cabinToEdit?: ICabin;
+}
+
+const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
+  cabinToEdit: editValues,
+}) => {
+  const isInEditMode = Boolean(editValues?.id);
+
+  const { isCreating, createNewCabin } = useCreateCabin();
+  const { isUpdating, updateExistCabin } = useUpdateCabin();
+
+  const isWorking = isCreating || isUpdating;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
     reset,
-  } = useForm<IFormData>({
+  } = useForm<ICabin>({
     resolver: yupResolver(schemaForm),
     mode: 'onChange',
+    defaultValues: isInEditMode ? editValues : {},
   });
 
-  const { isPending: isCreating, mutate } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
+  const onSubmit: SubmitHandler<ICabin> = (data) => {
+    let imageFile;
 
-      toast.success('New cabin added');
-      reset();
-    },
+    // if data.image is a file use it as imageFile
+    if (data.image instanceof FileList && data.image.length > 0) {
+      imageFile = data.image[0];
+    } else {
+      // if edit mode and user dont upload new image use URL from edit values as imageFile
+      imageFile = editValues?.image;
+    }
 
-    onError: (err) => toast.error(err.message),
-  });
-
-  const onSubmit: SubmitHandler<IFormData> = (data) => {
-    mutate({ ...data, image: data.image });
+    if (isInEditMode) {
+      updateExistCabin(
+        {
+          ...data,
+          image: imageFile,
+        },
+        { onSuccess: () => reset() },
+      );
+    } else {
+      createNewCabin(
+        {
+          ...data,
+          image: imageFile,
+        },
+        { onSuccess: () => reset() },
+      );
+    }
   };
 
   return (
@@ -51,7 +75,7 @@ const CreateCabinForm = () => {
         <Input
           type="text"
           id="name"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register('name')}
         />
       </FormRow>
@@ -63,7 +87,7 @@ const CreateCabinForm = () => {
         <Input
           type="number"
           id="maxCapacity"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register('maxCapacity')}
         />
       </FormRow>
@@ -75,8 +99,10 @@ const CreateCabinForm = () => {
         <Input
           type="number"
           id="regularPrice"
-          disabled={isCreating}
-          {...register('regularPrice')}
+          disabled={isWorking}
+          {...register('regularPrice', {
+            onChange: () => trigger(['discount', 'regularPrice']),
+          })}
         />
       </FormRow>
 
@@ -84,9 +110,11 @@ const CreateCabinForm = () => {
         <Input
           type="number"
           id="discount"
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue={0}
-          {...register('discount')}
+          {...register('discount', {
+            onChange: () => trigger(['discount', 'regularPrice']),
+          })}
         />
       </FormRow>
 
@@ -97,7 +125,7 @@ const CreateCabinForm = () => {
         <Textarea
           type="text"
           id="description"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register('description')}
         />
       </FormRow>
@@ -107,23 +135,34 @@ const CreateCabinForm = () => {
           id="image"
           accept="image/*"
           type="file"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register('image')}
         />
       </FormRow>
 
       <FormRow>
-        <Button $variation="secondary" $size="medium" type="reset">
+        <Button
+          $variation="secondary"
+          $size="medium"
+          type="reset"
+          disabled={isWorking}
+        >
           Cancel
         </Button>
 
         <Button
           $variation="secondary"
           $size="medium"
-          disabled={isCreating}
+          disabled={isWorking}
           type="submit"
         >
-          Add cabin
+          {isInEditMode
+            ? isUpdating
+              ? 'Updating...'
+              : 'Edit cabin'
+            : isCreating
+              ? 'Creating cabin...'
+              : 'Create new cabin'}
         </Button>
       </FormRow>
     </Form>

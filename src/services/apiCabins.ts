@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
-
 import { ICabin } from '@/types/cabin';
-import { IFormData } from '@/types/formData';
 
 import supabase, { supabaseUrl } from './supabase';
 
 // fetch all cabins from DB
 export const getCabins = async () => {
-  const { data, error } = await supabase.from('cabins').select('*');
+  const { data, error } = await supabase
+    .from('cabins')
+    .select('*')
+    .order('created_at', { ascending: true });
 
   if (error) {
     console.error(error);
@@ -19,13 +20,14 @@ export const getCabins = async () => {
 
 // delete cabin by Id
 export const deleteCabin = async (cabin: ICabin) => {
+  if (!cabin.id) return;
   const { data, error } = await supabase
     .from('cabins')
     .delete()
     .eq('id', cabin.id);
 
-  //also delete cacin image from database
-  if (cabin.image) {
+  //also delete cabin image from database
+  if (typeof cabin.image === 'string') {
     const imageName = cabin.image.split('/').pop();
     if (imageName) {
       await supabase.storage.from('cabin-images').remove([imageName]);
@@ -40,12 +42,24 @@ export const deleteCabin = async (cabin: ICabin) => {
   return data;
 };
 
+// upload image file to supabase
+const uploadImage = async (image: File) => {
+  const imageName = `${Math.random()}-${image.name}`.replaceAll('/', '');
+
+  const { error: storageError } = await supabase.storage
+    .from('cabin-images')
+    .upload(imageName, image);
+
+  const path = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+
+  return { path, error: storageError };
+};
+
 // create new cabin
-export const createCabin = async (newCabin: IFormData) => {
-  const imageName = `${Math.random()}-${newCabin.image[0].name}`.replaceAll(
-    '/',
-    '',
-  );
+export const createCabin = async (newCabin: ICabin) => {
+  //creating name for new cabin image
+  const imageName =
+    `${Math.random()}-${(newCabin.image as File).name}`.replaceAll('/', '');
 
   const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
@@ -53,23 +67,50 @@ export const createCabin = async (newCabin: IFormData) => {
   const { data, error } = await supabase
     .from('cabins')
     .insert([{ ...newCabin, image: imagePath }])
-    .select();
+    .select() // returns newly created cabin
+    .single();
 
   if (error) {
     console.error(error);
-    throw new Error('Cabin could not be created');
+    throw new Error('Error during creating the Cabin');
   }
 
   // 2) upload image
   const { error: storageError } = await supabase.storage
     .from('cabin-images')
-    .upload(imageName, newCabin.image[0]);
+    .upload(imageName, newCabin.image as File);
 
-  // 3) delete cabin if error during uploading
+  //3) delete cabin if error during uploading
   if (storageError) {
-    await supabase.from('cabins').delete().eq('id', data[0].id);
+    await supabase.from('cabins').delete().eq('id', data.id);
     console.error(storageError);
     throw new Error('Cabin image could not be uploaded');
+  }
+
+  return data;
+};
+
+// updating the existing cabin
+export const updateCabin = async (editingCabin: ICabin) => {
+  if (editingCabin.image instanceof File) {
+    const { path, error: storageError } = await uploadImage(editingCabin.image);
+    if (storageError) {
+      console.error(storageError);
+      throw new Error('Error during updating the Cabin');
+    }
+
+    editingCabin = { ...editingCabin, image: path };
+  }
+
+  const { data, error } = await supabase
+    .from('cabins')
+    .update({ ...editingCabin, image: editingCabin.image as string })
+    .eq('id', editingCabin.id!)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Error during updating the Cabin');
   }
 
   return data;

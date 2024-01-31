@@ -12,6 +12,7 @@ const Row = styled.div<RowProps>`
     css`
       align-items: space-between;
       justify-content: center;
+      gap: 0.5rem;
     `}
 
   ${(props) =>
