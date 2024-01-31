@@ -50,23 +50,21 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
       imageFile = editValues?.image;
     }
 
-    if (isInEditMode) {
-      updateExistCabin(
-        {
-          ...data,
-          image: imageFile,
-        },
-        { onSuccess: () => reset() },
-      );
-    } else {
-      createNewCabin(
-        {
-          ...data,
-          image: imageFile,
-        },
-        { onSuccess: () => reset() },
-      );
-    }
+    isInEditMode
+      ? updateExistCabin(
+          {
+            ...data,
+            image: imageFile,
+          },
+          { onSuccess: () => reset() },
+        )
+      : createNewCabin(
+          {
+            ...data,
+            image: imageFile,
+          },
+          { onSuccess: () => reset() },
+        );
   };
 
   return (

@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { MdDelete } from 'react-icons/md';
 import styled from 'styled-components';
 
-import { deleteCabin } from '@/services/apiCabins';
+import { useDeleteCabin } from '@/hooks/useDeleteCabin';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
 import Row from '@/ui/Row/Row';
@@ -58,22 +56,9 @@ interface CabinRowProps {
 
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
   const [isShowForm, setIsShowForm] = useState(false);
+  const { isDeleting, mutate: deleteCabin } = useDeleteCabin();
 
   const { name, maxCapacity, image, regularPrice, discount } = cabin;
-
-  const queryClient = useQueryClient();
-
-  const { isPending: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['cabins'],
-      });
-
-      toast.success('Cabin deleted');
-    },
-    onError: (err) => toast.error(err.message),
-  });
 
   return (
     <>
@@ -100,7 +85,7 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
             $size="small"
             $variation="danger"
             onClick={() => {
-              mutate(cabin);
+              deleteCabin(cabin);
             }}
             disabled={isDeleting}
           >
