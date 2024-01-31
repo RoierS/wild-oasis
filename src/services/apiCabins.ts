@@ -56,16 +56,15 @@ const uploadImage = async (image: File) => {
 
 // create new cabin
 export const createCabin = async (newCabin: ICabin) => {
-  //creating name for new cabin image
-  const imageName =
-    `${Math.random()}-${(newCabin.image as File).name}`.replaceAll('/', '');
+  // 1) upload image
+  const { path, error: storageError } = await uploadImage(
+    newCabin.image as File,
+  );
 
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-
-  // 1) create cabin
+  // 2) create cabin
   const { data, error } = await supabase
     .from('cabins')
-    .insert([{ ...newCabin, image: imagePath }])
+    .insert([{ ...newCabin, image: path }])
     .select() // returns newly created cabin
     .single();
 
@@ -73,11 +72,6 @@ export const createCabin = async (newCabin: ICabin) => {
     console.error(error);
     throw new Error('Error during creating the Cabin');
   }
-
-  // 2) upload image
-  const { error: storageError } = await supabase.storage
-    .from('cabin-images')
-    .upload(imageName, newCabin.image as File);
 
   //3) delete cabin if error during uploading
   if (storageError) {
@@ -91,6 +85,7 @@ export const createCabin = async (newCabin: ICabin) => {
 
 // updating the existing cabin
 export const updateCabin = async (editingCabin: ICabin) => {
+  // 1) if image selected upload image to supabase
   if (editingCabin.image instanceof File) {
     const { path, error: storageError } = await uploadImage(editingCabin.image);
     if (storageError) {
