@@ -18,6 +18,7 @@ import Spinner from '@/ui/Spinner/Spinner';
 const UpdateSettingsForm = () => {
   const { isLoading, settings, error: loadingError } = useSettings();
   const { isUpdating, updateExistSettings } = useUpdateSettings();
+  const isWorking = isLoading || isUpdating;
 
   const {
     register,
@@ -58,7 +59,7 @@ const UpdateSettingsForm = () => {
         <Input
           type="number"
           id="minBookingLength"
-          disabled={isUpdating}
+          disabled={isWorking}
           defaultValue={Number(settings?.minBookingLength)}
           {...register('minBookingLength')}
           onBlur={handleUpdateSettings}
@@ -75,7 +76,7 @@ const UpdateSettingsForm = () => {
         <Input
           type="number"
           id="maxBookingLength"
-          disabled={isUpdating}
+          disabled={isWorking}
           defaultValue={Number(settings?.maxBookingLength)}
           {...register('maxBookingLength')}
           onBlur={handleUpdateSettings}
@@ -92,7 +93,7 @@ const UpdateSettingsForm = () => {
         <Input
           type="number"
           id="maxGuestsPerBooking"
-          disabled={isUpdating}
+          disabled={isWorking}
           defaultValue={Number(settings?.maxGuestsPerBooking)}
           {...register('maxGuestsPerBooking')}
           onBlur={handleUpdateSettings}
@@ -105,7 +106,7 @@ const UpdateSettingsForm = () => {
         <Input
           type="number"
           id="breakfastPrice"
-          disabled={isUpdating}
+          disabled={isWorking}
           defaultValue={Number(settings?.breakfastPrice)}
           {...register('breakfastPrice')}
           onBlur={handleUpdateSettings}
