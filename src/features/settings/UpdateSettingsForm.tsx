@@ -30,12 +30,19 @@ const UpdateSettingsForm = () => {
   });
 
   const handleUpdateSettings = (e: ChangeEvent<HTMLInputElement>) => {
-    const fieldValue = Number(e.target.value);
-    const fieldName = e.target.id;
+    const { id, value, defaultValue } = e.target;
 
-    if (fieldValue <= 0 || Object.keys(errors).length > 0) return;
+    if (
+      Number(value) <= 0 ||
+      Object.keys(errors).length > 0 ||
+      defaultValue === value
+    )
+      return;
 
-    updateExistSettings({ [fieldName]: fieldValue });
+    updateExistSettings({ [id]: Number(value) });
+
+    // updating default value to prevent unneccesary settings update
+    e.target.defaultValue = value;
   };
 
   if (isLoading) return <Spinner />;
