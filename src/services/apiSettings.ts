@@ -19,6 +19,7 @@ export const updateSettings = async (newSettings: ISettings) => {
   const { data, error } = await supabase
     .from('settings')
     .update(newSettings)
+    // update row with id=1 (setting is only One row)
     .eq('id', 1)
     .single();
 
