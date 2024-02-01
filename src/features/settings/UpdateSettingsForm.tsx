@@ -4,6 +4,9 @@ import { useForm } from 'react-hook-form';
 
 import toast from 'react-hot-toast';
 
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { schemaSettings } from '@/constants/schemaSettings';
 import { useSettings } from '@/hooks/useSettings';
 import { useUpdateSettings } from '@/hooks/useUpdateSettings';
 import { ISettings } from '@/types/settings';
@@ -19,12 +22,20 @@ const UpdateSettingsForm = () => {
   const {
     register,
     formState: { errors },
+    trigger,
+    setValue,
   } = useForm<ISettings>({
+    resolver: yupResolver(schemaSettings),
     mode: 'onChange',
   });
 
   const handleUpdateSettings = (e: ChangeEvent<HTMLInputElement>) => {
-    updateExistSettings({ [e.target.id]: e.target.value });
+    const fieldValue = Number(e.target.value);
+    const fieldName = e.target.id;
+
+    if (fieldValue <= 0 || Object.keys(errors).length > 0) return;
+
+    updateExistSettings({ [fieldName]: fieldValue });
   };
 
   if (isLoading) return <Spinner />;
@@ -44,6 +55,10 @@ const UpdateSettingsForm = () => {
           defaultValue={Number(settings?.minBookingLength)}
           {...register('minBookingLength')}
           onBlur={handleUpdateSettings}
+          onChange={(e) => {
+            setValue('minBookingLength', Number(e.target.value));
+            trigger(['minBookingLength', 'maxBookingLength']);
+          }}
         />
       </FormRow>
       <FormRow
@@ -57,6 +72,10 @@ const UpdateSettingsForm = () => {
           defaultValue={Number(settings?.maxBookingLength)}
           {...register('maxBookingLength')}
           onBlur={handleUpdateSettings}
+          onChange={(e) => {
+            setValue('maxBookingLength', Number(e.target.value));
+            trigger(['minBookingLength', 'maxBookingLength']);
+          }}
         />
       </FormRow>
       <FormRow
