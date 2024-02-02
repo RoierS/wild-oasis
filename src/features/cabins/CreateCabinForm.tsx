@@ -15,10 +15,12 @@ import Textarea from '@/ui/Textarea/Textarea';
 
 interface CreateCabinFormProps {
   cabinToEdit?: ICabin;
+  onCloseModal?: () => void;
 }
 
 const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
   cabinToEdit: editValues,
+  onCloseModal,
 }) => {
   const isInEditMode = Boolean(editValues?.id);
 
@@ -40,35 +42,33 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
   });
 
   const onSubmit: SubmitHandler<ICabin> = (data) => {
-    let imageFile;
+    const imageFile =
+      data.image instanceof FileList && data.image.length > 0
+        ? data.image[0]
+        : editValues?.image;
 
-    // if data.image is a file use it as imageFile
-    if (data.image instanceof FileList && data.image.length > 0) {
-      imageFile = data.image[0];
-    } else {
-      // if edit mode and user dont upload new image use URL from edit values as imageFile
-      imageFile = editValues?.image;
-    }
+    const cabinData = {
+      ...data,
+      image: imageFile,
+    };
+
+    const config = {
+      onSuccess: () => {
+        onCloseModal?.();
+        reset();
+      },
+    };
 
     isInEditMode
-      ? updateExistCabin(
-          {
-            ...data,
-            image: imageFile,
-          },
-          { onSuccess: () => reset() },
-        )
-      : createNewCabin(
-          {
-            ...data,
-            image: imageFile,
-          },
-          { onSuccess: () => reset() },
-        );
+      ? updateExistCabin(cabinData, config)
+      : createNewCabin(cabinData, config);
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      type={onCloseModal ? 'modal' : 'regular'}
+    >
       <FormRow labelName="Cabin name" errorMessage={errors?.name?.message}>
         <Input
           type="text"
@@ -139,6 +139,7 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
           $size="medium"
           type="reset"
           disabled={isWorking}
+          onClick={() => onCloseModal?.()}
         >
           Cancel
         </Button>

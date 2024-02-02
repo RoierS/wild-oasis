@@ -1,35 +1,21 @@
-import { useState } from 'react';
-
+import AddCabin from '@/features/cabins/AddCabin';
 import CabinTable from '@/features/cabins/CabinTable';
-import CreateCabinForm from '@/features/cabins/CreateCabinForm';
-import Button from '@/ui/Button/Button';
 import Heading from '@/ui/Heading/Heading';
 import Row from '@/ui/Row/Row';
 
 const Cabins = () => {
-  const [isShowForm, setIsShowFrom] = useState(false);
-
   return (
     <>
       <Row $type="horizontal">
         <Heading as="h1">All cabins</Heading>
+        <p>Filter / Sort</p>
       </Row>
 
       <Row $type="vertical">
         <CabinTable />
       </Row>
 
-      <Row $type="vertical">
-        <Button
-          $size="medium"
-          $variation="primary"
-          onClick={() => setIsShowFrom(!isShowForm)}
-        >
-          Add new cabin
-        </Button>
-
-        {isShowForm && <CreateCabinForm />}
-      </Row>
+      <AddCabin />
     </>
   );
 };
