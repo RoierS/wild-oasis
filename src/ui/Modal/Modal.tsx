@@ -1,4 +1,11 @@
-import { cloneElement, createContext, useContext, useState } from 'react';
+import {
+  cloneElement,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { createPortal } from 'react-dom';
 
@@ -103,11 +110,23 @@ interface WindowProps {
 const Window: React.FC<WindowProps> = ({ children, name }) => {
   const { openName, close } = useContext(ModalContext);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      !ref.current?.contains(e.target as Node) && close();
+    };
+
+    document.addEventListener('click', handleClick, true);
+
+    return () => document.removeEventListener('click', handleClick, true);
+  }, [close]);
+
   if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
