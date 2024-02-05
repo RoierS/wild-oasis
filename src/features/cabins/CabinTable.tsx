@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 
 import { useCabins } from '@/hooks/useCabins';
+import { ICabin } from '@/types/cabin';
 import Spinner from '@/ui/Spinner/Spinner';
 
 import Table from '@/ui/Table/Table';
@@ -24,9 +25,10 @@ const CabinTable: React.FC = () => {
         <div>Discount</div>
         <div>Delete</div>
       </Table.Header>
-      <Table.Body>
-        {cabins?.map((cabin) => <CabinRow cabin={cabin} key={cabin.id} />)}
-      </Table.Body>
+      <Table.Body
+        data={cabins}
+        render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+      />
     </Table>
   );
 };

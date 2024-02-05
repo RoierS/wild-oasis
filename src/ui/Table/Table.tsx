@@ -2,6 +2,8 @@ import React, { createContext, useContext } from 'react';
 
 import styled from 'styled-components';
 
+import { ICabin } from '@/types/cabin';
+
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -121,10 +123,13 @@ const Row: React.FC<IRowProps> = ({ children }) => {
 };
 
 interface IBodyProps {
-  children: React.ReactNode;
+  data?: ICabin[];
+  render: (value: ICabin, index: number) => React.ReactNode;
 }
-const Body: React.FC<IBodyProps> = ({ children }) => {
-  return <StyledBody>{children}</StyledBody>;
+const Body: React.FC<IBodyProps> = ({ data, render }) => {
+  if (data?.length === 0) return <EmptyRow />;
+
+  return <StyledBody>{data?.map(render)}</StyledBody>;
 };
 
 const EmptyRow: React.FC = () => {
