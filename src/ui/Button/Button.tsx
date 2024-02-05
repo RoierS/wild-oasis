@@ -61,8 +61,8 @@ const $variations: VariationsProps = {
 };
 
 interface ButtonProps {
-  $size: keyof SizeProps;
-  $variation: keyof VariationsProps;
+  $size?: keyof SizeProps;
+  $variation?: keyof VariationsProps;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -70,8 +70,13 @@ const Button = styled.button<ButtonProps>`
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
 
-  ${(props) => $sizes[props.$size]}
-  ${(props) => $variations[props.$variation]}
+  ${(props) => props.$size && $sizes[props.$size]}
+  ${(props) => props.$variation && $variations[props.$variation]}
 `;
+
+Button.defaultProps = {
+  $size: 'medium',
+  $variation: 'primary',
+};
 
 export default Button;

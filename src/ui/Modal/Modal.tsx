@@ -1,3 +1,5 @@
+import { cloneElement, createContext, useContext, useState } from 'react';
+
 import { createPortal } from 'react-dom';
 
 import { HiXMark } from 'react-icons/hi2';
@@ -52,23 +54,77 @@ const Button = styled.button`
   }
 `;
 
-const Modal: React.FC<{
+type ModalContextType = {
+  close: () => void;
+  open: (name: string) => void;
+  openName: string;
+};
+
+const ModalContext = createContext({} as ModalContextType);
+
+interface ModalProps {
   children: React.ReactNode;
-  onClose: () => void;
-}> = ({ children, onClose }) => {
+}
+
+interface ModalComponent extends React.FC<ModalProps> {
+  Open: React.FC<OpenProps>;
+  Window: React.FC<WindowProps>;
+}
+
+const Modal: ModalComponent = ({ children }) => {
+  const [openName, setOpenName] = useState('');
+
+  const close = () => setOpenName('');
+  const open = setOpenName;
+
+  return (
+    <ModalContext.Provider value={{ close, open, openName }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
+interface OpenProps {
+  children: React.ReactNode;
+  opens: string;
+}
+const Open: React.FC<OpenProps> = ({ children, opens: opensWindowName }) => {
+  const { open } = useContext(ModalContext);
+
+  return cloneElement(children as React.ReactElement, {
+    onClick: () => open(opensWindowName),
+  });
+};
+
+interface WindowProps {
+  name: string;
+  children: React.ReactNode;
+}
+const Window: React.FC<WindowProps> = ({ children, name }) => {
+  const { openName, close } = useContext(ModalContext);
+
+  if (name !== openName) return null;
+
   return createPortal(
     <Overlay>
       <StyledModal>
-        <Button onClick={onClose}>
+        <Button onClick={close}>
           <HiXMark />
         </Button>
 
-        <div>{children}</div>
+        <div>
+          {cloneElement(children as React.ReactElement, {
+            onCloseModal: close,
+          })}
+        </div>
       </StyledModal>
     </Overlay>,
 
     document.body,
   );
 };
+
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
