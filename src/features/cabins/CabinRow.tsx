@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 import styled from 'styled-components';
 
@@ -7,6 +5,8 @@ import { useCreateCabin } from '@/hooks/useCreateCabin';
 import { useDeleteCabin } from '@/hooks/useDeleteCabin';
 import { ICabin } from '@/types/cabin';
 import Button from '@/ui/Button/Button';
+import ConfirmDelete from '@/ui/ConfirmDelete/ConfirmDelete';
+import Modal from '@/ui/Modal/Modal';
 import Row from '@/ui/Row/Row';
 import { formatCurrency } from '@/utils/helpers';
 
@@ -56,7 +56,6 @@ interface CabinRowProps {
 }
 
 const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
-  const [isShowForm, setIsShowForm] = useState(false);
   const { isDeleting, mutate: deleteCabin } = useDeleteCabin();
   const { isCreating, createNewCabin } = useCreateCabin();
 
@@ -73,50 +72,49 @@ const CabinRow: React.FC<CabinRowProps> = ({ cabin }) => {
       description,
     });
   };
-  return (
-    <>
-      <TableRow role="row">
-        <Img src={`${image}`} alt={`${name}`} />
-        <Cabin>{name}</Cabin>
-        <div>Fits up to {maxCapacity} guests</div>
-        <Price>{formatCurrency(regularPrice!)}</Price>
-        <Discount>
-          {discount ? formatCurrency(discount) : <span>&mdash;</span>}
-        </Discount>
-        <Row $type="horizontal">
-          <Button
-            $size="small"
-            $variation="primary"
-            disabled={isCreating}
-            onClick={handleDuplicate}
-          >
-            <HiSquare2Stack />
-          </Button>
-          <Button
-            $size="small"
-            $variation="primary"
-            disabled={isDeleting}
-            onClick={() => {
-              setIsShowForm((show) => !show);
-            }}
-          >
-            <HiPencil />
-          </Button>
-          <Button
-            $size="small"
-            $variation="danger"
-            onClick={() => {
-              deleteCabin(cabin);
-            }}
-            disabled={isDeleting}
-          >
-            {isDeleting ? 'Deleting...' : <HiTrash />}
-          </Button>
-        </Row>
-      </TableRow>
 
-      {isShowForm && <CreateCabinForm cabinToEdit={cabin} />}
-    </>
+  return (
+    <TableRow role="row">
+      <Img src={`${image}`} alt={`${name}`} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div>
+      <Price>{formatCurrency(regularPrice!)}</Price>
+      <Discount>
+        {discount ? formatCurrency(discount) : <span>&mdash;</span>}
+      </Discount>
+
+      <Row $type="horizontal">
+        <Button $size="small" disabled={isCreating} onClick={handleDuplicate}>
+          <HiSquare2Stack />
+        </Button>
+
+        <Modal>
+          <Modal.Open opens="edit">
+            <Button $size="small">
+              <HiPencil />
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateCabinForm cabinToEdit={cabin} />
+          </Modal.Window>
+        </Modal>
+
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button $size="small" $variation="danger">
+              <HiTrash />
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="cabin"
+              disabled={isDeleting}
+              onConfirm={() => deleteCabin(cabin)}
+            />
+          </Modal.Window>
+        </Modal>
+      </Row>
+    </TableRow>
   );
 };
 

@@ -136,7 +136,6 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
       <FormRow>
         <Button
           $variation="secondary"
-          $size="medium"
           type="reset"
           disabled={isWorking}
           onClick={() => onCloseModal?.()}
@@ -144,12 +143,7 @@ const CreateCabinForm: React.FC<CreateCabinFormProps> = ({
           Cancel
         </Button>
 
-        <Button
-          $variation="secondary"
-          $size="medium"
-          disabled={isWorking}
-          type="submit"
-        >
+        <Button $variation="secondary" disabled={isWorking} type="submit">
           {isInEditMode
             ? isUpdating
               ? 'Updating...'
