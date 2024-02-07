@@ -105,7 +105,7 @@ interface WindowProps {
 const Window: React.FC<WindowProps> = ({ children, name }) => {
   const { openName, close } = useContext(ModalContext);
 
-  const { ref } = useOutsideClick(close);
+  const { ref } = useOutsideClick<HTMLDivElement>(close);
 
   if (name !== openName) return null;
 

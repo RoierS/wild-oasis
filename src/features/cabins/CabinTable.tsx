@@ -2,6 +2,7 @@ import toast from 'react-hot-toast';
 
 import { useCabins } from '@/hooks/useCabins';
 import { ICabin } from '@/types/cabin';
+import Menus from '@/ui/Menus/Menus';
 import Spinner from '@/ui/Spinner/Spinner';
 
 import Table from '@/ui/Table/Table';
@@ -16,20 +17,22 @@ const CabinTable: React.FC = () => {
   if (error) toast.error(error.message);
 
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.Header>
-        <div>Image</div>
-        <div>Cabin</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
-        <div>Delete</div>
-      </Table.Header>
-      <Table.Body
-        data={cabins}
-        render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
-      />
-    </Table>
+    <Menus>
+      <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+        <Table.Header>
+          <div>Image</div>
+          <div>Cabin</div>
+          <div>Capacity</div>
+          <div>Price</div>
+          <div>Discount</div>
+          <div>Delete</div>
+        </Table.Header>
+        <Table.Body
+          data={cabins}
+          render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+        />
+      </Table>
+    </Menus>
   );
 };
 
