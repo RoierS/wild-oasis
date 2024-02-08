@@ -1,5 +1,7 @@
 import toast from 'react-hot-toast';
 
+import { useSearchParams } from 'react-router-dom';
+
 import { useCabins } from '@/hooks/useCabins';
 import { ICabin } from '@/types/cabin';
 import Menus from '@/ui/Menus/Menus';
@@ -11,6 +13,14 @@ import CabinRow from './CabinRow';
 
 const CabinTable: React.FC = () => {
   const { isLoading, cabins, error } = useCabins();
+  const [searchParams] = useSearchParams();
+  const filterValue = searchParams.get('discount') || 'all';
+
+  const filteredCabs = cabins?.filter((cabin: ICabin) => {
+    if (filterValue === 'all') return true;
+    if (filterValue === 'no-discount') return !cabin.discount;
+    if (filterValue === 'with-discount') return cabin.discount;
+  });
 
   if (isLoading) return <Spinner />;
 
@@ -28,7 +38,7 @@ const CabinTable: React.FC = () => {
           <div>Delete</div>
         </Table.Header>
         <Table.Body
-          data={cabins}
+          data={filteredCabs}
           render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>
