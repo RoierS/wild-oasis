@@ -1,6 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
+import { IOptions } from '@/types/options';
+
 const StyledFilter = styled.div`
   border: 1px solid var(--color-grey-100);
   background-color: var(--color-grey-0);
@@ -39,10 +41,6 @@ const FilterButton = styled.button<FilterButtonProps>`
   }
 `;
 
-interface IOptions {
-  value: string;
-  label: string;
-}
 interface FilterProps {
   filterField: string;
   options: IOptions[];
@@ -65,6 +63,7 @@ const Filter: React.FC<FilterProps> = ({ filterField, options }) => {
           key={option.label}
           onClick={() => handlelClick(option.value)}
           $active={option.value === currentValue}
+          disabled={option.value === currentValue}
         >
           {option.label}
         </FilterButton>

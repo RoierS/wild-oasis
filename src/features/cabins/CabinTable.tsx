@@ -14,12 +14,35 @@ import CabinRow from './CabinRow';
 const CabinTable: React.FC = () => {
   const { isLoading, cabins, error } = useCabins();
   const [searchParams] = useSearchParams();
+
+  // FILTER
   const filterValue = searchParams.get('discount') || 'all';
 
-  const filteredCabs = cabins?.filter((cabin: ICabin) => {
+  const filteredCabins = cabins?.filter((cabin: ICabin) => {
     if (filterValue === 'all') return true;
     if (filterValue === 'no-discount') return !cabin.discount;
     if (filterValue === 'with-discount') return cabin.discount;
+  });
+
+  // SORT
+  const sortValue = searchParams.get('sortBy') || 'name-asc';
+  const [sortField, sortOrder] = sortValue.split('-');
+  const modifier = sortOrder === 'asc' ? 1 : -1;
+
+  const sortedCabins = filteredCabins?.sort((a: ICabin, b: ICabin) => {
+    if (sortField === 'name') {
+      return a.name && b.name ? a.name.localeCompare(b.name) * modifier : 0;
+    } else if (
+      sortField === 'regularPrice' ||
+      sortField === 'maxCapacity' ||
+      sortField === 'discount'
+    ) {
+      const aValue = a[sortField] ?? 0;
+      const bValue = b[sortField] ?? 0;
+      return (aValue - bValue) * modifier;
+    } else {
+      return 0;
+    }
   });
 
   if (isLoading) return <Spinner />;
@@ -38,7 +61,7 @@ const CabinTable: React.FC = () => {
           <div>Delete</div>
         </Table.Header>
         <Table.Body
-          data={filteredCabs}
+          data={sortedCabins}
           render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>
