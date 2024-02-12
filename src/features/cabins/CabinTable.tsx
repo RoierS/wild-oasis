@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import { useCabins } from '@/hooks/useCabins';
 import { ICabin } from '@/types/cabin';
+import Empty from '@/ui/Empty/Empty';
 import Menus from '@/ui/Menus/Menus';
 import Spinner from '@/ui/Spinner/Spinner';
 
@@ -45,6 +46,8 @@ const CabinTable: React.FC = () => {
     }
   });
 
+  if (!cabins?.length) return <Empty resourceName="cabins" />;
+
   if (isLoading) return <Spinner />;
 
   if (error) toast.error(error.message);
@@ -61,7 +64,7 @@ const CabinTable: React.FC = () => {
           <div>Delete</div>
         </Table.Header>
         <Table.Body
-          data={sortedCabins}
+          data={sortedCabins as ICabin[]}
           render={(cabin: ICabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Table>

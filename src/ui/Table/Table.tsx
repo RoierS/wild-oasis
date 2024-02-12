@@ -1,8 +1,6 @@
-import React, { createContext, useContext } from 'react';
+import React, { ReactNode, createContext, useContext } from 'react';
 
 import styled from 'styled-components';
-
-import { ICabin } from '@/types/cabin';
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -72,20 +70,12 @@ type TableContextType = {
 
 const TableContext = createContext({} as TableContextType);
 
-interface ITableProps {
+interface TableProps {
   columns: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-interface TableComponent extends React.FC<ITableProps> {
-  Header: React.FC<IHeaderProps>;
-  Row: React.FC<IRowProps>;
-  Body: React.FC<IBodyProps>;
-  Footer: React.FC;
-  EmptyRow: React.FC;
-}
-
-const Table: TableComponent = ({ columns, children }) => {
+const Table = ({ columns, children }: TableProps) => {
   return (
     <TableContext.Provider value={{ columns }}>
       <StyledTable role="table">{children}</StyledTable>
@@ -93,28 +83,26 @@ const Table: TableComponent = ({ columns, children }) => {
   );
 };
 
-interface IHeaderProps {
-  children: React.ReactNode;
+interface HeaderProps {
+  children: ReactNode;
 }
 
-const Header: React.FC<IHeaderProps> = ({ children }) => {
+const Header: React.FC<HeaderProps> = ({ children }) => {
   const { columns } = useContext(TableContext);
-
   return (
-    <StyledHeader role="row" as="header" $columns={columns}>
+    <StyledHeader role="row" $columns={columns} as="header">
       {children}
     </StyledHeader>
   );
 };
 
-interface IRowProps {
-  children: React.ReactNode;
+interface RowProps {
+  children: ReactNode;
   role?: string;
 }
 
-const Row: React.FC<IRowProps> = ({ children }) => {
+const Row: React.FC<RowProps> = ({ children }) => {
   const { columns } = useContext(TableContext);
-
   return (
     <StyledRow role="row" $columns={columns}>
       {children}
@@ -122,24 +110,20 @@ const Row: React.FC<IRowProps> = ({ children }) => {
   );
 };
 
-interface IBodyProps {
-  data?: ICabin[];
-  render: (value: ICabin, index: number) => React.ReactNode;
+interface BodyProps<T> {
+  data: T[];
+  render: (item: T) => ReactNode;
 }
-const Body: React.FC<IBodyProps> = ({ data, render }) => {
-  if (data?.length === 0) return <EmptyRow />;
-
-  return <StyledBody>{data?.map(render)}</StyledBody>;
-};
-
-const EmptyRow: React.FC = () => {
-  return <Empty>No data</Empty>;
+const Body = <T,>({ data, render }: BodyProps<T>) => {
+  if (data.length === 0) {
+    return <Empty>No data to show</Empty>;
+  }
+  return <StyledBody>{data.map(render)}</StyledBody>;
 };
 
 Table.Header = Header;
-Table.Row = Row;
 Table.Body = Body;
+Table.Row = Row;
 Table.Footer = Footer;
-Table.EmptyRow = EmptyRow;
 
 export default Table;
