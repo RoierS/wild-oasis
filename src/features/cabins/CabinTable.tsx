@@ -46,9 +46,9 @@ const CabinTable: React.FC = () => {
     }
   });
 
-  if (!cabins?.length) return <Empty resourceName="cabins" />;
-
   if (isLoading) return <Spinner />;
+
+  if (!cabins?.length) return <Empty resourceName="cabins" />;
 
   if (error) toast.error(error.message);
 

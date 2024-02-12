@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Uploader from '@/data/Uploader';
+
 import Logo from '../Logo/Logo';
 import MainNav from '../MainNav/MainNav';
 
@@ -18,6 +20,8 @@ const Sidebar: React.FC = () => {
     <StyledSidebar>
       <Logo />
       <MainNav />
+
+      <Uploader />
     </StyledSidebar>
   );
 };

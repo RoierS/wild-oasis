@@ -1,13 +1,12 @@
 import { format, isToday } from 'date-fns';
 import { styled } from 'styled-components';
 
+import { IBooking } from '@/types/booking';
 import Table from '@/ui/Table/Table';
 
 import Tag from '@/ui/Tag/Tag';
 
 import { formatCurrency, formatDistanceFromNow } from '@/utils/helpers';
-
-import { IBooking } from './BookingTable';
 
 const Cabin = styled.div`
   font-size: 1.6rem;
