@@ -8,7 +8,10 @@ export interface IFilter {
 
 interface getBookingsProps {
   filter: IFilter | null;
-  sortBy?: string;
+  sortBy?: {
+    sortField: string;
+    sortOrder: string;
+  };
 }
 
 export const getBookings = async ({ filter, sortBy }: getBookingsProps) => {
@@ -24,8 +27,11 @@ export const getBookings = async ({ filter, sortBy }: getBookingsProps) => {
     query = method ? query.gte(field, value) : query.eq(field, value);
   }
 
-  // eslint-disable-next-line no-console
-  console.log(sortBy);
+  // Sort
+  if (sortBy) {
+    const { sortField, sortOrder } = sortBy;
+    query = query.order(sortField, { ascending: sortOrder === 'asc' });
+  }
 
   const { data, error } = await query;
 
