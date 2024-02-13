@@ -50,6 +50,7 @@ const Filter: React.FC<FilterProps> = ({ filterField, options }) => {
 
   const handlelClick = (value: string) => {
     searchParams.set(filterField, value);
+    searchParams.set('page', String(1));
     setSearchParams(searchParams);
   };
 

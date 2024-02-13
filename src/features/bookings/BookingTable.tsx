@@ -8,7 +8,7 @@ import Table from '@/ui/Table/Table';
 import BookingRow from './BookingRow';
 
 const BookingTable: React.FC = () => {
-  const { bookings, isLoading } = useBookings();
+  const { bookings, count, isLoading } = useBookings();
 
   if (isLoading) return <Spinner />;
 
@@ -31,7 +31,7 @@ const BookingTable: React.FC = () => {
       />
 
       <Table.Footer>
-        <Pagination count={bookings.length} />
+        <Pagination count={count || 0} />
       </Table.Footer>
     </Table>
   );

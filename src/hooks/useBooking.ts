@@ -23,14 +23,13 @@ export const useBookings = () => {
     sortOrder,
   };
 
-  const {
-    isLoading,
-    data: bookings,
-    error,
-  } = useQuery({
-    queryKey: ['bookings', filter, sortBy],
-    queryFn: () => getBookings({ filter, sortBy }),
+  // Pagination
+  const page = Number(searchParams.get('page')) || 1;
+
+  const { isLoading, data, error } = useQuery({
+    queryKey: ['bookings', filter, sortBy, page],
+    queryFn: () => getBookings({ filter, sortBy, page }),
   });
 
-  return { isLoading, bookings, error };
+  return { isLoading, bookings: data?.bookings, count: data?.count, error };
 };
