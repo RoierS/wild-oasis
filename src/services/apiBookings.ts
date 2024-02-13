@@ -57,3 +57,18 @@ export const getBookings = async ({
 
   return { bookings, count };
 };
+
+export const getBooking = async (id: number) => {
+  const { data, error } = await supabase
+    .from('bookings')
+    .select('*, cabins(*), guests(*)')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be loaded');
+  }
+
+  return data;
+};

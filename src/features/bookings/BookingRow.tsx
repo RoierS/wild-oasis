@@ -1,7 +1,10 @@
 import { format, isToday } from 'date-fns';
+import { HiEye } from 'react-icons/hi2';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
 import { IBooking } from '@/types/booking';
+import Menus from '@/ui/Menus/Menus';
 import Table from '@/ui/Table/Table';
 
 import Tag from '@/ui/Tag/Tag';
@@ -48,7 +51,14 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
     status,
     numNights,
     totalPrice,
+    id: bookingId,
   } = booking;
+
+  const navigate = useNavigate();
+
+  const handleView = () => {
+    navigate(`/bookings/${bookingId}`);
+  };
 
   type statusToTagName = {
     [key: string]: string;
@@ -85,6 +95,16 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
       <Tag $type={statusToTagName[status!]}>{status?.replace('-', ' ')}</Tag>
 
       <Amount>{totalPrice && formatCurrency(totalPrice)}</Amount>
+
+      <Menus.Menu>
+        <Menus.Toggle id={bookingId} />
+
+        <Menus.List id={bookingId}>
+          <Menus.Button onClick={handleView} icon={<HiEye />}>
+            Details
+          </Menus.Button>
+        </Menus.List>
+      </Menus.Menu>
     </Table.Row>
   );
 };
