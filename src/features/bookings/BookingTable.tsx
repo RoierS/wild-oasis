@@ -1,6 +1,7 @@
 import { useBookings } from '@/hooks/useBooking';
 import { IBooking } from '@/types/booking';
 import Empty from '@/ui/Empty/Empty';
+import Pagination from '@/ui/Pagination/Pagination';
 import Spinner from '@/ui/Spinner/Spinner';
 import Table from '@/ui/Table/Table';
 
@@ -28,6 +29,10 @@ const BookingTable: React.FC = () => {
           <BookingRow key={booking.id} booking={booking} />
         )}
       />
+
+      <Table.Footer>
+        <Pagination count={bookings.length} />
+      </Table.Footer>
     </Table>
   );
 };
