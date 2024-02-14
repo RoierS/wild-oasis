@@ -1,4 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import toast from 'react-hot-toast';
 
@@ -21,8 +25,8 @@ export const useCheckin = () => {
 
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['bookings'],
-      });
+        active: true,
+      } as InvalidateQueryFilters);
 
       toast.success(`Booking #${data.id} Checked in successfully`);
 

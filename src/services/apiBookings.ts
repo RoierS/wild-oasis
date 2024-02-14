@@ -77,7 +77,7 @@ export const updateBooking = async (
   id: number,
   config: {
     status: 'unconfirmed' | 'checked-in' | 'checked-out';
-    isPaid: boolean;
+    isPaid?: boolean;
   },
 ) => {
   const { data, error } = await supabase

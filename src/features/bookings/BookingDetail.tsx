@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useBooking } from '@/hooks/useBooking';
+import { useCheckout } from '@/hooks/useCheckout';
 import { useMoveBack } from '@/hooks/useMoveBack';
 import { IBooking } from '@/types/booking';
 import Button from '@/ui/Button/Button';
@@ -27,11 +28,16 @@ const HeadingGroup = styled.div`
 
 const BookingDetail: React.FC = () => {
   const { booking, isLoading } = useBooking();
+  const { checkout, isCheckingOut } = useCheckout();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
   const handleCheckIn = () => {
     navigate(`/check-in/${bookingId}`);
+  };
+
+  const handleCheckOut = () => {
+    checkout(bookingId);
   };
 
   const statusToTagName: statusToTagName = {
@@ -69,6 +75,12 @@ const BookingDetail: React.FC = () => {
       <ButtonGroup>
         {status === 'unconfirmed' && (
           <Button onClick={handleCheckIn}>Check in</Button>
+        )}
+
+        {status === 'checked-in' && (
+          <Button onClick={handleCheckOut} disabled={isCheckingOut}>
+            Check out
+          </Button>
         )}
 
         <Button $variation="secondary" onClick={moveBack}>

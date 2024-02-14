@@ -1,8 +1,9 @@
 import { format, isToday } from 'date-fns';
-import { HiArrowDownOnSquare, HiEye } from 'react-icons/hi2';
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
+import { useCheckout } from '@/hooks/useCheckout';
 import { IBooking } from '@/types/booking';
 import Menus from '@/ui/Menus/Menus';
 import Table from '@/ui/Table/Table';
@@ -53,7 +54,7 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
     totalPrice,
     id: bookingId,
   } = booking;
-
+  const { checkout, isCheckingOut } = useCheckout();
   const navigate = useNavigate();
 
   const handleView = () => {
@@ -62,6 +63,10 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
 
   const handleCheckIn = () => {
     navigate(`/check-in/${bookingId}`);
+  };
+
+  const handleCheckOut = () => {
+    checkout(bookingId);
   };
 
   type statusToTagName = {
@@ -114,6 +119,16 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
               icon={<HiArrowDownOnSquare />}
             >
               Check in
+            </Menus.Button>
+          )}
+
+          {status === 'checked-in' && (
+            <Menus.Button
+              onClick={handleCheckOut}
+              disabled={isCheckingOut}
+              icon={<HiArrowUpOnSquare />}
+            >
+              Check out
             </Menus.Button>
           )}
         </Menus.List>
