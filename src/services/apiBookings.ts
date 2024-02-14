@@ -72,3 +72,25 @@ export const getBooking = async (id: number) => {
 
   return data;
 };
+
+export const updateBooking = async (
+  id: number,
+  config: {
+    status: 'unconfirmed' | 'checked-in' | 'checked-out';
+    isPaid: boolean;
+  },
+) => {
+  const { data, error } = await supabase
+    .from('bookings')
+    .update(config)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error('Booking could not be updated');
+  }
+
+  return data;
+};

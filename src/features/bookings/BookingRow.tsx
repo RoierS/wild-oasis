@@ -1,5 +1,5 @@
 import { format, isToday } from 'date-fns';
-import { HiEye } from 'react-icons/hi2';
+import { HiArrowDownOnSquare, HiEye } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 
@@ -60,6 +60,10 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
     navigate(`/bookings/${bookingId}`);
   };
 
+  const handleCheckIn = () => {
+    navigate(`/check-in/${bookingId}`);
+  };
+
   type statusToTagName = {
     [key: string]: string;
   };
@@ -103,6 +107,15 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
           <Menus.Button onClick={handleView} icon={<HiEye />}>
             Details
           </Menus.Button>
+
+          {status === 'unconfirmed' && (
+            <Menus.Button
+              onClick={handleCheckIn}
+              icon={<HiArrowDownOnSquare />}
+            >
+              Check in
+            </Menus.Button>
+          )}
         </Menus.List>
       </Menus.Menu>
     </Table.Row>

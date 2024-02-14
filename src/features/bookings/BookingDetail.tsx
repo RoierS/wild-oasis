@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useBooking } from '@/hooks/useBooking';
@@ -14,7 +15,9 @@ import Tag from '@/ui/Tag/Tag';
 
 import BookingDataBox from './BookingDataBox';
 
-// import BookingDataBox from './BookingDataBox';
+type statusToTagName = {
+  [key: string]: string;
+};
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -25,9 +28,10 @@ const HeadingGroup = styled.div`
 const BookingDetail: React.FC = () => {
   const { booking, isLoading } = useBooking();
   const moveBack = useMoveBack();
+  const navigate = useNavigate();
 
-  type statusToTagName = {
-    [key: string]: string;
+  const handleCheckIn = () => {
+    navigate(`/check-in/${bookingId}`);
   };
 
   const statusToTagName: statusToTagName = {
@@ -37,6 +41,7 @@ const BookingDetail: React.FC = () => {
   };
 
   if (isLoading) return <Spinner />;
+
   const typedBooking = booking as IBooking;
 
   const { status, id: bookingId } = typedBooking;
@@ -62,6 +67,10 @@ const BookingDetail: React.FC = () => {
       <BookingDataBox booking={typedBooking} />
 
       <ButtonGroup>
+        {status === 'unconfirmed' && (
+          <Button onClick={handleCheckIn}>Check in</Button>
+        )}
+
         <Button $variation="secondary" onClick={moveBack}>
           Back
         </Button>
