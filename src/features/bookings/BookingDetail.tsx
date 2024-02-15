@@ -1,15 +1,19 @@
+import { HiTrash } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { useBooking } from '@/hooks/useBooking';
 import { useCheckout } from '@/hooks/useCheckout';
+import { useDeleteBooking } from '@/hooks/useDeleteBooking';
 import { useMoveBack } from '@/hooks/useMoveBack';
 import { IBooking } from '@/types/booking';
 import Button from '@/ui/Button/Button';
 import ButtonGroup from '@/ui/ButtonGroup/ButtonGroup';
 import ButtonText from '@/ui/ButtonText/ButtonText';
+import ConfirmDelete from '@/ui/ConfirmDelete/ConfirmDelete';
 import Empty from '@/ui/Empty/Empty';
 import Heading from '@/ui/Heading/Heading';
+import Modal from '@/ui/Modal/Modal';
 import Row from '@/ui/Row/Row';
 import Spinner from '@/ui/Spinner/Spinner';
 import Tag from '@/ui/Tag/Tag';
@@ -29,6 +33,7 @@ const HeadingGroup = styled.div`
 const BookingDetail: React.FC = () => {
   const { booking, isLoading } = useBooking();
   const { checkout, isCheckingOut } = useCheckout();
+  const { isDeletingBooking, deleteCurrentBooking } = useDeleteBooking();
   const moveBack = useMoveBack();
   const navigate = useNavigate();
 
@@ -86,6 +91,28 @@ const BookingDetail: React.FC = () => {
         <Button $variation="secondary" onClick={moveBack}>
           Back
         </Button>
+
+        <Modal>
+          <Modal.Open opens="delete">
+            <Button $variation="danger">
+              <HiTrash />
+            </Button>
+          </Modal.Open>
+
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              onConfirm={() => {
+                deleteCurrentBooking(bookingId, {
+                  onSettled: () => {
+                    navigate(-1);
+                  },
+                });
+              }}
+              disabled={isDeletingBooking}
+            />
+          </Modal.Window>
+        </Modal>
       </ButtonGroup>
     </>
   );
