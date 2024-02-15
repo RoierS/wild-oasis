@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface RowProps {
-  $type: 'horizontal' | 'vertical';
+  $type: 'vertical' | 'horizontal';
 }
 
 const Row = styled.div<RowProps>`
@@ -10,8 +10,8 @@ const Row = styled.div<RowProps>`
   ${(props) =>
     props.$type === 'horizontal' &&
     css`
-      align-items: space-between;
-      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
       gap: 0.5rem;
     `}
 
