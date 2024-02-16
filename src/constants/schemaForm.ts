@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 import { ICabin } from '@/types/cabin';
 
-import { validationErrors } from './validatioErrors';
+import { validationErrors } from './validationErrors';
 
 export const schemaForm: yup.ObjectSchema<ICabin> = yup
   .object()

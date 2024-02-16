@@ -2,7 +2,7 @@ import * as yup from 'yup';
 
 import { ISettings } from '@/types/settings';
 
-import { validationErrors } from './validatioErrors';
+import { validationErrors } from './validationErrors';
 
 export const schemaSettings: yup.ObjectSchema<ISettings> = yup.object().shape({
   minBookingLength: yup

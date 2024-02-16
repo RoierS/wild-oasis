@@ -1,3 +1,4 @@
+import { ISignupForm } from '@/features/authentication/SignupForm';
 import { ILoginForm } from '@/types/loginForm';
 
 import supabase from './supabase';
@@ -38,4 +39,28 @@ export const logoutUser = async () => {
     console.error(error);
     throw new Error(error.message);
   }
+};
+
+export const signupUser = async ({
+  fullName,
+  email,
+  password,
+}: ISignupForm) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        fullName,
+        avatar: '',
+      },
+    },
+  });
+
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+
+  return data;
 };
