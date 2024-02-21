@@ -1,20 +1,18 @@
+import { ChangeEvent } from 'react';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { schemaSignup } from '@/constants/schemaSignup';
+import { validationErrors } from '@/constants/validationErrors';
 import { useSignup } from '@/hooks/useSignup';
+import { checkEmailExistence } from '@/services/apiAuth';
+import { ISignupForm } from '@/types/signupForm';
 import Button from '@/ui/Button/Button';
 import Form from '@/ui/Form/Form';
 import FormRow from '@/ui/FormRow/FormRow';
 import Input from '@/ui/Input/Input';
-
-export interface ISignupForm {
-  fullName: string;
-  email: string;
-  password: string;
-  passwordConfirm?: string;
-}
 
 const SignupForm = () => {
   const {
@@ -22,17 +20,28 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setError,
   } = useForm<ISignupForm>({
     resolver: yupResolver(schemaSignup),
     mode: 'onChange',
   });
   const { signup, isSigningUp } = useSignup();
 
-  const onSubmit: SubmitHandler<ISignupForm> = ({
+  const onSubmit: SubmitHandler<ISignupForm> = async ({
     fullName,
     email,
     password,
   }) => {
+    const isEmailExist = await checkEmailExistence(email);
+
+    if (isEmailExist) {
+      setError('email', {
+        type: 'manual',
+        message: validationErrors.emailExists(),
+      });
+      return;
+    }
+
     signup(
       {
         fullName,
@@ -43,6 +52,23 @@ const SignupForm = () => {
         onSettled: () => reset(),
       },
     );
+  };
+
+  const handleEmailExistenceOnBlur = async (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (errors?.email?.message) {
+      return;
+    }
+
+    const isEmailExist = await checkEmailExistence(e.target.value);
+
+    if (isEmailExist) {
+      setError('email', {
+        type: 'manual',
+        message: validationErrors.emailExists(),
+      });
+    }
   };
 
   return (
@@ -62,6 +88,7 @@ const SignupForm = () => {
           id="email"
           {...register('email')}
           disabled={isSigningUp}
+          onBlur={handleEmailExistenceOnBlur}
         />
       </FormRow>
 
@@ -70,7 +97,7 @@ const SignupForm = () => {
         errorMessage={errors?.password?.message}
       >
         <Input
-          type="text"
+          type="password"
           id="password"
           {...register('password')}
           disabled={isSigningUp}
@@ -82,7 +109,7 @@ const SignupForm = () => {
         errorMessage={errors?.passwordConfirm?.message}
       >
         <Input
-          type="text"
+          type="password"
           id="passwordConfirm"
           {...register('passwordConfirm')}
           disabled={isSigningUp}

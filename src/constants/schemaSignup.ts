@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { ISignupForm } from '@/features/authentication/SignupForm';
+import { ISignupForm } from '@/types/signupForm';
 
 import { EMAIL_REGX, LATIN_CHARACTERS_ONLY, NO_WHITESPACE } from './constants';
 import { validationErrors } from './validationErrors';

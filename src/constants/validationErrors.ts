@@ -35,4 +35,5 @@ export const validationErrors = {
   fullNameValidation: () => '⚠ Please enter your full name',
   confirmPassword: () => '⚠ Please confirm your password',
   passwordMatch: () => '⚠ Passwords must match',
+  emailExists: () => '⚠ This email address already exists',
 };
