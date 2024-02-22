@@ -71,10 +71,6 @@ const $variations: VariationsProps = {
     cursor: pointer;
     outline: none;
 
-    &:focus {
-      outline: none;
-    }
-
     &:hover {
       background-color: var(--color-grey-200);
     }
@@ -90,6 +86,10 @@ const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+
+  &:focus {
+    outline: none;
+  }
 
   ${(props) => props.$size && $sizes[props.$size]}
   ${(props) => props.$variation && $variations[props.$variation]}

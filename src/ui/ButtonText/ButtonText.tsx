@@ -13,6 +13,10 @@ const ButtonText = styled.button`
   &:active {
     color: var(--color-brand-700);
   }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export default ButtonText;

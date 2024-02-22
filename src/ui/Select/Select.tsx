@@ -20,6 +20,16 @@ const StyledSelect = styled.select<IStyledSelectProps>`
   background-color: var(--color-grey-0);
   font-weight: 500;
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-grey-50);
+    border-radius: var(--border-radius-sm);
+  }
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 interface ISelectProps {
