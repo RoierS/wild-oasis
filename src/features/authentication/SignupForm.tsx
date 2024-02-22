@@ -1,6 +1,10 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+import { styled } from 'styled-components';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -14,7 +18,13 @@ import Form from '@/ui/Form/Form';
 import FormRow from '@/ui/FormRow/FormRow';
 import Input from '@/ui/Input/Input';
 
+const InputWrapper = styled.div`
+  position: relative;
+`;
+
 const SignupForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -96,24 +106,42 @@ const SignupForm = () => {
         labelName="Password (min 8 characters)"
         errorMessage={errors?.password?.message}
       >
-        <Input
-          type="password"
-          id="password"
-          {...register('password')}
-          disabled={isSigningUp}
-        />
+        <InputWrapper>
+          <Input
+            type={isShowPassword ? 'text' : 'password'}
+            id="password"
+            {...register('password')}
+            disabled={isSigningUp}
+          />
+          <Button
+            $variation="togglePassword"
+            type="button"
+            onClick={() => setIsShowPassword((prev) => !prev)}
+          >
+            {isShowPassword ? <FaEyeSlash /> : <FaEye />}
+          </Button>
+        </InputWrapper>
       </FormRow>
 
       <FormRow
         labelName="Repeat password"
         errorMessage={errors?.passwordConfirm?.message}
       >
-        <Input
-          type="password"
-          id="passwordConfirm"
-          {...register('passwordConfirm')}
-          disabled={isSigningUp}
-        />
+        <InputWrapper>
+          <Input
+            type={isShowPassword ? 'text' : 'password'}
+            id="passwordConfirm"
+            {...register('passwordConfirm')}
+            disabled={isSigningUp}
+          />
+          <Button
+            $variation="togglePassword"
+            type="button"
+            onClick={() => setIsShowPassword((prev) => !prev)}
+          >
+            {isShowPassword ? <FaEyeSlash /> : <FaEye />}
+          </Button>
+        </InputWrapper>
       </FormRow>
 
       <FormRow>

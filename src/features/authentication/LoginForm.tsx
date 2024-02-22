@@ -9,7 +9,7 @@ import SpinnerMini from '@/ui/SpinnerMini/SpinnerMini';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('test@test.com'); // Test user
-  const [password, setPassword] = useState('qwerty123456'); // Test user
+  const [password, setPassword] = useState('Qwerty!1'); // Test user
   const { login, isLoggingIn } = useLogin();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

@@ -30,6 +30,7 @@ interface VariationsProps {
   primary: RuleSet;
   secondary: RuleSet;
   danger: RuleSet;
+  togglePassword: RuleSet;
 }
 
 const $variations: VariationsProps = {
@@ -56,6 +57,26 @@ const $variations: VariationsProps = {
 
     &:hover {
       background-color: var(--color-red-800);
+    }
+  `,
+  togglePassword: css`
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    border: none;
+    background-color: var(--color-grey-50);
+    padding: 0.5rem;
+    border-radius: 100%;
+    cursor: pointer;
+    outline: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: var(--color-grey-200);
     }
   `,
 };
