@@ -13,9 +13,10 @@ const StyledUserAvatar = styled.div`
 
 interface AvatarProps {
   alt: string;
+  src: string;
 }
 
-const Avatar = styled.img<AvatarProps>`
+export const Avatar = styled.img<AvatarProps>`
   display: block;
   width: 4rem;
   width: 3.6rem;
