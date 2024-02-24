@@ -6,7 +6,7 @@ import { FaEyeSlash, FaEye } from 'react-icons/fa';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { updatePasswordSchema } from '@/constants/passwordSchema';
+import { passwordSchema } from '@/constants/passwordSchema';
 import { useUpdateUser } from '@/hooks/useUpdateUser';
 import Button from '@/ui/Button/Button';
 import Form from '@/ui/Form/Form';
@@ -28,7 +28,7 @@ const UpdatePasswordForm: React.FC = () => {
     formState: { errors },
     reset,
   } = useForm<IUpdatePasswordForm>({
-    resolver: yupResolver(updatePasswordSchema),
+    resolver: yupResolver(passwordSchema),
     mode: 'onChange',
     defaultValues: {
       password: '',
