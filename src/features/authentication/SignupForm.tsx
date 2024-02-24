@@ -4,8 +4,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-import { styled } from 'styled-components';
-
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { schemaSignup } from '@/constants/schemaSignup';
@@ -17,10 +15,7 @@ import Button from '@/ui/Button/Button';
 import Form from '@/ui/Form/Form';
 import FormRow from '@/ui/FormRow/FormRow';
 import Input from '@/ui/Input/Input';
-
-const InputWrapper = styled.div`
-  position: relative;
-`;
+import InputWrapper from '@/ui/InputWrapper/InputWrapper';
 
 const SignupForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);

@@ -107,7 +107,7 @@ export const updateCurrentUser = async ({
   avatar,
 }: {
   password?: string;
-  fullName: string;
+  fullName?: string;
   avatar?: File | null;
 }) => {
   let updateData = {};
