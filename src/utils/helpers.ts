@@ -22,8 +22,11 @@ interface Options {
 export const getToday = function (options: Options = {}) {
   const today = new Date();
 
-  if (options?.end) today.setUTCHours(23, 59, 59, 999);
-  else today.setUTCHours(0, 0, 0, 0);
+  if (options?.end) {
+    today.setUTCHours(23, 59, 59, 999);
+  } else {
+    today.setUTCHours(0, 0, 0, 0);
+  }
 
   return today.toISOString();
 };
