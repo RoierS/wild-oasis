@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import LoginForm from '@/features/authentication/LoginForm';
+import { useUser } from '@/hooks/useUser';
+import FullPageSpinner from '@/ui/FullPageSpinner/FullPageSpinner';
 import Heading from '@/ui/Heading/Heading';
 import Logo from '@/ui/Logo/Logo';
 
@@ -15,6 +20,19 @@ const LoginLayout = styled.main`
 `;
 
 const Login = () => {
+  const { isAuthenticated, isLoading } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (isLoading) {
+    return <FullPageSpinner />;
+  }
+
   return (
     <LoginLayout>
       <Logo />
