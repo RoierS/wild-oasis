@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import Logout from '@/features/authentication/Logout';
 
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import DarkModeToggle from '../DarkModeToggle/DarkModeToggle';
 
 const StyledHeaderMenu = styled.ul`
   display: flex;
@@ -24,6 +25,9 @@ const HeaderMenu: React.FC = () => {
       </li>
       <li>
         <Logout />
+      </li>
+      <li>
+        <DarkModeToggle />
       </li>
     </StyledHeaderMenu>
   );
