@@ -125,6 +125,21 @@ export const updateCurrentUser = async ({
 
   if (!avatar) return data;
 
+  // Delete old avatar
+  if (data.user.user_metadata.avatar && avatar) {
+    const imageName = data.user.user_metadata.avatar.split('/').pop();
+    if (imageName) {
+      const { error: deleteError } = await supabase.storage
+        .from('avatars')
+        .remove([imageName]);
+
+      if (deleteError) {
+        console.error(deleteError);
+        throw new Error(deleteError.message);
+      }
+    }
+  }
+
   // Upload avatar
   const fileName = `avatar-${data.user.id}-${Math.random()}`;
 
