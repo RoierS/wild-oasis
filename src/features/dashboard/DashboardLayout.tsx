@@ -1,8 +1,13 @@
 import { styled } from 'styled-components';
 
+import { useCabins } from '@/hooks/useCabins';
 import { useRecentBookings } from '@/hooks/useRecentBookings';
 import { useRecentStays } from '@/hooks/UseResentStays';
+import { IBooking } from '@/types/booking';
+import Empty from '@/ui/Empty/Empty';
 import Spinner from '@/ui/Spinner/Spinner';
+
+import Stats from './Stats';
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -14,23 +19,33 @@ const StyledDashboardLayout = styled.div`
 const DashboardLayout: React.FC = () => {
   const { isLoading: isRecentBookingsLoading, recentBookings } =
     useRecentBookings();
+
   const {
     confirmedStays,
-    recentStays,
+    numDays,
     isLoading: isStaysLoading,
   } = useRecentStays();
 
-  if (isRecentBookingsLoading || isStaysLoading) return <Spinner />;
+  const { isLoading: isCabinsLoading, cabins } = useCabins();
 
-  // TODO: Display statistics
-  // eslint-disable-next-line no-console
-  console.log(recentBookings);
-  // eslint-disable-next-line no-console
-  console.log(confirmedStays, recentStays);
+  if (isRecentBookingsLoading || isStaysLoading || isCabinsLoading)
+    return <Spinner />;
+
+  if (
+    (!recentBookings || !recentBookings.length) &&
+    (!confirmedStays || !confirmedStays.length) &&
+    (!cabins || !cabins.length)
+  )
+    return <Empty resourceName="dashboard" />;
 
   return (
     <StyledDashboardLayout>
-      <div>Stats</div>
+      <Stats
+        recentBookings={recentBookings as IBooking[]}
+        confirmedStays={confirmedStays as IBooking[]}
+        numDays={Number(numDays)}
+        cabinCount={cabins?.length || 0}
+      />
       <div>Today's activity</div>
       <div>Chart stay duration</div>
       <div>Chart sales</div>
