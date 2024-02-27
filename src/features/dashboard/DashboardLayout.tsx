@@ -7,6 +7,7 @@ import { IBooking } from '@/types/booking';
 import Empty from '@/ui/Empty/Empty';
 import Spinner from '@/ui/Spinner/Spinner';
 
+import SalesChart from './SalesChart';
 import Stats from './Stats';
 
 const StyledDashboardLayout = styled.div`
@@ -48,7 +49,10 @@ const DashboardLayout: React.FC = () => {
       />
       <div>Today's activity</div>
       <div>Chart stay duration</div>
-      <div>Chart sales</div>
+      <SalesChart
+        recentBookings={recentBookings as IBooking[]}
+        numDays={Number(numDays)}
+      />
     </StyledDashboardLayout>
   );
 };
