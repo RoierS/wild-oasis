@@ -39,6 +39,15 @@ const GlobalStyles = styled.createGlobalStyle`
       --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
       --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06);
       --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+
+      --color-1-night: #ef4444;
+      --color-2-nights: #f97316;
+      --color-3-nights: #eab308;
+      --color-4-5-nights: #84cc16;
+      --color-6-7-nights: #22c55e;
+      --color-8-14-nights: #14b8a6;
+      --color-15-21-nights: #3b82f6;
+      --color-21-nights: #a855f7;
     }
 
     &.dark-mode {
@@ -77,6 +86,15 @@ const GlobalStyles = styled.createGlobalStyle`
 
       --image-grayscale: 10%;
       --image-opacity: 90%;
+
+      --color-dark-1-night: #b91c1c;
+      --color-dark-2-nights: #c2410c;
+      --color-dark-3-nights: #a16207;
+      --color-dark-4-5-nights: #4d7c0f;
+      --color-dark-6-7-nights: #15803d;
+      --color-dark-8-14-nights: #0f766e;
+      --color-dark-15-21-nights: #1d4ed8;
+      --color-dark-21-nights: #7e22ce;
     }
 
     /* Indigo */

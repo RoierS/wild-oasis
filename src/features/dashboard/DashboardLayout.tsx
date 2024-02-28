@@ -7,6 +7,7 @@ import { IBooking } from '@/types/booking';
 import Empty from '@/ui/Empty/Empty';
 import Spinner from '@/ui/Spinner/Spinner';
 
+import DurationChart from './DurationChart';
 import SalesChart from './SalesChart';
 import Stats from './Stats';
 
@@ -29,8 +30,10 @@ const DashboardLayout: React.FC = () => {
 
   const { isLoading: isCabinsLoading, cabins } = useCabins();
 
-  if (isRecentBookingsLoading || isStaysLoading || isCabinsLoading)
-    return <Spinner />;
+  const isWorking =
+    isRecentBookingsLoading || isStaysLoading || isCabinsLoading;
+
+  if (isWorking) return <Spinner />;
 
   if (
     (!recentBookings || !recentBookings.length) &&
@@ -48,7 +51,7 @@ const DashboardLayout: React.FC = () => {
         cabinCount={cabins?.length || 0}
       />
       <div>Today's activity</div>
-      <div>Chart stay duration</div>
+      <DurationChart confirmedStays={confirmedStays as IBooking[]} />
       <SalesChart
         recentBookings={recentBookings as IBooking[]}
         numDays={Number(numDays)}
