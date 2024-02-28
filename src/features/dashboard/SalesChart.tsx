@@ -1,13 +1,17 @@
+import { useState, useCallback } from 'react';
+
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns';
 import {
   Area,
   AreaChart,
   CartesianGrid,
+  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
+import { Payload } from 'recharts/types/component/DefaultLegendContent';
 import styled from 'styled-components';
 
 import { useDarkMode } from '@/hooks/useDarkMode';
@@ -23,6 +27,10 @@ const StyledSalesChart = styled(DashboardBox)`
   & .recharts-cartesian-grid-horizontal line,
   & .recharts-cartesian-grid-vertical line {
     stroke: var(--color-grey-300);
+  }
+
+  & .recharts-legend-item {
+    cursor: pointer;
   }
 `;
 
@@ -70,6 +78,27 @@ const SalesChart: React.FC<ISalesChartProps> = ({
         background: '#fff',
       };
 
+  const [opacity, setOpacity] = useState({
+    totalSales: 1,
+    extrasSales: 1,
+  });
+
+  const handleMouseEnter = useCallback(
+    (data: Payload) => {
+      const { dataKey } = data as { dataKey: string };
+      setOpacity({ ...opacity, [dataKey]: 1 });
+    },
+    [opacity, setOpacity],
+  );
+
+  const handleMouseLeave = useCallback(
+    (data: Payload) => {
+      const { dataKey } = data as { dataKey: string };
+      setOpacity({ ...opacity, [dataKey]: 0.5 });
+    },
+    [opacity, setOpacity],
+  );
+
   return (
     <StyledSalesChart>
       <Heading as="h3">Sales</Heading>
@@ -86,6 +115,10 @@ const SalesChart: React.FC<ISalesChartProps> = ({
             tickLine={{ stroke: colors.text }}
           />
           <CartesianGrid strokeDasharray="4" />
+          <Legend
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
           <Tooltip
             contentStyle={{
               backgroundColor: colors.background,
@@ -100,6 +133,8 @@ const SalesChart: React.FC<ISalesChartProps> = ({
             strokeWidth={2}
             name="Total Sales"
             unit="$"
+            strokeOpacity={opacity.totalSales}
+            fillOpacity={opacity.totalSales}
           />
           <Area
             dataKey="extrasSales"
@@ -108,6 +143,8 @@ const SalesChart: React.FC<ISalesChartProps> = ({
             fill={colors.extrasSales.fill}
             name="Extras Sales"
             unit="$"
+            strokeOpacity={opacity.extrasSales}
+            fillOpacity={opacity.extrasSales}
           />
         </AreaChart>
       </ResponsiveContainer>
