@@ -101,7 +101,10 @@ const SalesChart: React.FC<ISalesChartProps> = ({
 
   return (
     <StyledSalesChart>
-      <Heading as="h3">Sales</Heading>
+      <Heading as="h3">
+        Sales from {format(allDates[0], 'MMM dd yyyy')} &ndash;{' '}
+        {format(allDates[allDates.length - 1], 'MMM dd yyyy')}
+      </Heading>
       <ResponsiveContainer height={300} width="100%">
         <AreaChart data={data}>
           <XAxis
