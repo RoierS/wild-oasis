@@ -113,6 +113,7 @@ const SalesChart: React.FC<ISalesChartProps> = ({
             tickLine={{ stroke: colors.text }}
           />
           <YAxis
+            width={100}
             unit="$"
             tick={{ fill: colors.text }}
             tickLine={{ stroke: colors.text }}

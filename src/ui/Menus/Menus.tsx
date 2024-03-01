@@ -9,8 +9,6 @@ import {
   useState,
 } from 'react';
 
-import { createPortal } from 'react-dom';
-
 import { HiEllipsisVertical } from 'react-icons/hi2';
 
 import styled from 'styled-components';
@@ -22,6 +20,7 @@ interface MenuProps {
 }
 
 const Menu = styled.div<MenuProps>`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -60,7 +59,9 @@ interface StyledListProps {
 }
 
 const StyledList = styled.ul<StyledListProps>`
-  position: fixed;
+  position: absolute;
+  z-index: 1;
+  width: max-content;
 
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-md);
@@ -155,17 +156,15 @@ const Toggle: React.FC<ToggleProps> = ({ id }) => {
   const handleClick = (e: SyntheticEvent) => {
     e.stopPropagation();
 
-    const button = (e.target as HTMLElement)
+    const rect = (e.target as HTMLElement)
       .closest('button')
       ?.getBoundingClientRect();
 
-    if (button) {
-      const rect = {
-        x: window.innerWidth - button.width - button.x,
-        y: button.y + button.height + 8,
-      };
-
-      setPosition(rect);
+    if (rect) {
+      setPosition({
+        x: -8,
+        y: rect.height,
+      });
     }
 
     openId === id ? close() : open(id);
@@ -189,11 +188,10 @@ const List: React.FC<ListProps> = ({ id, children }) => {
 
   if (openId !== id) return null;
 
-  return createPortal(
+  return (
     <StyledList ref={ref} $position={position}>
       {children}
-    </StyledList>,
-    document.body,
+    </StyledList>
   );
 };
 
