@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 
+import TodayActivity from '@/features/check-in-out/TodayActivity';
 import { useCabins } from '@/hooks/useCabins';
 import { useRecentBookings } from '@/hooks/useRecentBookings';
 import { useRecentStays } from '@/hooks/UseResentStays';
@@ -50,7 +51,7 @@ const DashboardLayout: React.FC = () => {
         numDays={Number(numDays)}
         cabinCount={cabins?.length || 0}
       />
-      <div>Today's activity</div>
+      <TodayActivity />
       <DurationChart confirmedStays={confirmedStays as IBooking[]} />
       <SalesChart
         recentBookings={recentBookings as IBooking[]}

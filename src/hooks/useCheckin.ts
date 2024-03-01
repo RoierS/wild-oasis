@@ -30,7 +30,7 @@ export const useCheckin = () => {
 
       toast.success(`Booking #${data.id} Checked in successfully`);
 
-      navigate('/bookings');
+      navigate('/dashboard', { replace: true });
     },
     onError: (err) => {
       toast.error(err.message);
