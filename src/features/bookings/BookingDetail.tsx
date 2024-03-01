@@ -55,9 +55,9 @@ const BookingDetail: React.FC = () => {
 
   const typedBooking = booking as IBooking;
 
-  const { status, id: bookingId } = typedBooking;
+  if (!typedBooking) return <Empty resourceName="booking" />;
 
-  if (!booking) return <Empty resourceName="booking" />;
+  const { status, id: bookingId } = typedBooking;
 
   return (
     <>
