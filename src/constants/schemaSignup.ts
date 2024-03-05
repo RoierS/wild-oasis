@@ -13,28 +13,29 @@ export const fullNameSchema = yup
   .matches(NO_WHITESPACE, validationErrors.fullNameValidation())
   .max(20, validationErrors.max(20, 'Full name'));
 
+export const emailSchema = yup
+  .string()
+  .required(validationErrors.required())
+  .test(
+    'noWhitespace',
+    validationErrors.noWhitespace(),
+    (value) => !value.includes(' '),
+  )
+  .test('hasAtSymbol', validationErrors.missingAtSymbol(), (value) =>
+    value.includes('@'),
+  )
+  .test('hasDomain', validationErrors.missingDomain(), (value) => {
+    const emailParts = value.split('@');
+    return emailParts.length === 2 && emailParts[1].trim() !== '';
+  })
+  .matches(EMAIL_REGX, validationErrors.invalidEmailFormat());
+
 export const schemaSignup: yup.ObjectSchema<ISignupForm> = yup
   .object()
   .shape({
     fullName: fullNameSchema,
 
-    email: yup
-      .string()
-      .required(validationErrors.required())
-      .test(
-        'noWhitespace',
-        validationErrors.noWhitespace(),
-        (value) => !value.includes(' '),
-      )
-      .test('hasAtSymbol', validationErrors.missingAtSymbol(), (value) =>
-        value.includes('@'),
-      )
-      .test('hasDomain', validationErrors.missingDomain(), (value) => {
-        const emailParts = value.split('@');
-        return emailParts.length === 2 && emailParts[1].trim() !== '';
-      })
-      .matches(EMAIL_REGX, validationErrors.invalidEmailFormat()),
-
+    email: emailSchema,
     password: newPasswordSchema,
     passwordConfirm: confirmPasswordSchema,
   })
