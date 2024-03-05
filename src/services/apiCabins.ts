@@ -20,22 +20,41 @@ export const getCabins = async () => {
 // delete cabin by Id
 export const deleteCabin = async (cabin: ICabin) => {
   if (!cabin.id) return;
+
   const { data, error } = await supabase
     .from('cabins')
     .delete()
     .eq('id', cabin.id);
 
-  //also delete cabin image from database
-  if (typeof cabin.image === 'string') {
-    const imageName = cabin.image.split('/').pop();
-    if (imageName) {
-      await supabase.storage.from('cabin-images').remove([imageName]);
+  if (error) {
+    if (error.code === '23503') {
+      console.error(error);
+      throw new Error('Cabin could not be deleted because it is in use');
+    } else {
+      console.error(error);
+      throw new Error('Cabin could not be deleted');
     }
   }
 
-  if (error) {
-    console.error(error);
-    throw new Error('Cabin could not be deleted');
+  //also delete cabin image from database
+  if (typeof cabin.image === 'string') {
+    const { data: imageUsage, error: usageError } = await supabase
+      .from('cabins')
+      .select('id')
+      .eq('image', cabin.image)
+      .neq('id', cabin.id);
+
+    if (usageError) {
+      console.error(usageError);
+      throw new Error('Error checking image usage');
+    }
+
+    if (!imageUsage?.length) {
+      const imageName = cabin.image.split('/').pop();
+      if (imageName) {
+        await supabase.storage.from('cabin-images').remove([imageName]);
+      }
+    }
   }
 
   return data;
