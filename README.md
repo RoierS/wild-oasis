@@ -1,40 +1,45 @@
-#<center>Wild Oasis Management App 🌴</center>
-
-<center>
-Wild Oasis Management App is a web application tailored for hotel employees to manage cabins, bookings, and guest information efficiently. The application ensures that only authorized hotel employees can access its functionalities, providing a secure environment for hotel management tasks.
-</center>
-
+<div align='center'>
+  <img src="/public/icon.png" alt="logo" width="200" height="auto" />
+  <h1>Wild Oasis | Management App</h1>
+  <p>
+  Wild Oasis Management App is a web application tailored for hotel employees to manage cabins, bookings, and guest information efficiently. The application ensures that only authorized hotel employees can access its functionalities, providing a secure environment for hotel management tasks.
+  </p>
+  <div align='center'>
+   <img src="https://github.com/RoierS/wild-oasis/assets/111195111/dd7e7455-021d-436a-9c4f-195e2d873d6b" alt="macbook app view" width="400" height="auto" />
+   <img src="https://github.com/RoierS/wild-oasis/assets/111195111/f2eded4b-e54d-49fc-a43d-805738f3d97f" alt="imac app view" width="400" height="auto" />
+  </div>
+</div>
 
 
 ## 🛠️ Tech Stack
 
-**⚛️ React**
-**🛣️ React Router**
-**🔍 React Query**
-**🎨 Styled Components**
-**📝 Typescript**
-**📋 React Hook Form**
-**🔣 React Icons**
-**🔥 React Hot Toast**
-**📊 Recharts**
-**📅 date-fns**
-**🛢️ Supabase**
-**🧹 ESlint**
-**💅 Prettier**
-**🚀 Vite**
+- **⚛️ React**
+- **🛣️ React Router**
+- **🔍 React Query**
+- **🎨 Styled Components**
+- **📝 Typescript**
+- **📋 React Hook Form**
+- **🔣 React Icons**
+- **🔥 React Hot Toast**
+- **📊 Recharts**
+- **📅 date-fns**
+- **🛢️ Supabase**
+- **🧹 ESlint**
+- **💅 Prettier**
+- **🚀 Vite**
 
 ## ✨ Features
 
-**🔐 User Authentication:** Users need to log in to access the application, ensuring only hotel employees can utilize its features.
-**🙎‍♂️ Avatar Management:** Users can upload avatars and update their name and password within the application.
-**🏠 Cabin Management:** A table view displays all cabins with their details, allowing users to update, delete, or create new cabins with uploaded photos.
-**📅 Booking Management:** A table view showcases all bookings with essential details like arrival and departure dates, status, and paid amount. Bookings can be filtered by status for easier management.
-**💵 Payment Handling:** Users can accept payment for bookings on guest arrival, confirming payment receipt within the application.
-**🥞 Breakfast Addition:** User can add breakfast for gest for entire stay during check-in if not already included.
-**🧳 Guest Information:** Detailed guest data including full name, email, national ID, nationality, and country flag for quick identification.
-**📊 Dashboard:** The initial screen presents a dashboard with vital information for the last 7, 30, or 90 days, including guest check-ins and check-outs, sales statistics, and occupancy rates.
-**⚙️ Application-wide Settings:** Users can define application-wide settings such as breakfast price, min/max nights per booking, and max guests per booking.
-**🌙 Dark Mode:** The application offers a dark mode for enhanced user experience.
+- **🔐 User Authentication:** Users need to log in to access the application, ensuring only hotel employees can utilize its features.
+- **🙎‍♂️ Avatar Management:** Users can upload avatars and update their name and password within the application.
+- **🏠 Cabin Management:** A table view displays all cabins with their details, allowing users to update, delete, or create new cabins with uploaded photos.
+- **📅 Booking Management:** A table view showcases all bookings with essential details like arrival and departure dates, status, and paid amount. Bookings can be filtered by status for easier management.
+- **💵 Payment Handling:** Users can accept payment for bookings on guest arrival, confirming payment receipt within the application.
+- **🥞 Breakfast Addition:** User can add breakfast for gest for entire stay during check-in if not already included.
+- **🧳 Guest Information:** Detailed guest data including full name, email, national ID, nationality, and country flag for quick identification.
+- **📊 Dashboard:** The initial screen presents a dashboard with vital information for the last 7, - 30, or 90 days, including guest check-ins and check-outs, sales statistics, and occupancy rates.
+- **⚙️ Application-wide Settings:** Users can define application-wide settings such as breakfast price, min/max nights per booking, and max guests per booking.
+- **🌙 Dark Mode:** The application offers a dark mode for enhanced user experience.
 
 
 # 📁 Project Structure
