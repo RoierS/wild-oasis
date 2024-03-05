@@ -157,3 +157,29 @@ export const getStaysTodayActivity = async () => {
 
   return data;
 };
+
+export const getBookingsRowsCount = async ({
+  filter,
+}: {
+  filter: IFilter | null;
+}) => {
+  let countQuery = supabase
+    .from('bookings')
+    .select('id', { count: 'exact', head: true });
+
+  if (filter) {
+    const { method, field, value } = filter;
+    countQuery = method
+      ? countQuery.gte(field, value)
+      : countQuery.eq(field, value);
+  }
+
+  const { count: rowsCount, error } = await countQuery;
+
+  if (error) {
+    console.error(error);
+    throw new Error('Bookings could not be loaded');
+  }
+
+  return rowsCount;
+};
