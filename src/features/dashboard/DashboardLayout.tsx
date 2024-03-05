@@ -3,7 +3,8 @@ import { styled } from 'styled-components';
 import TodayActivity from '@/features/check-in-out/TodayActivity';
 import { useCabins } from '@/hooks/useCabins';
 import { useRecentBookings } from '@/hooks/useRecentBookings';
-import { useRecentStays } from '@/hooks/useResentStays';
+
+import { useRecentStays } from '@/hooks/useRecentStays';
 import { IBooking } from '@/types/booking';
 import Empty from '@/ui/Empty/Empty';
 import Spinner from '@/ui/Spinner/Spinner';
