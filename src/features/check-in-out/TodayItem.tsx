@@ -12,7 +12,7 @@ const StyledTodayItem = styled.li`
   display: grid;
   grid-template-columns:
     minmax(90px, 1fr) 21px minmax(108px, 1fr) minmax(59px, 1fr)
-    minmax(58px, 1fr);
+    minmax(85px, 1fr);
 
   gap: 1.2rem;
   align-items: center;

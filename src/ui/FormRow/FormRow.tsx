@@ -39,7 +39,6 @@ const StyledFormRow = styled.div`
     &:has(button[type='submit']) {
       display: flex;
       justify-content: center;
-      flex-direction: column;
       gap: 1.2rem;
     }
   }

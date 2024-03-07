@@ -20,6 +20,7 @@ const StyledToday = styled.div`
   grid-column: 1 / span 2;
   padding-top: 2.4rem;
   overflow: auto;
+  width: 100%;
 
   @media screen and (max-width: 768px) {
     padding: 1.5rem;
@@ -28,7 +29,8 @@ const StyledToday = styled.div`
 
 const TodayList = styled.ul`
   grid-area: todayActivity;
-  width: fit-content;
+  min-width: 42rem;
+  width: 100%;
 
   &::-webkit-scrollbar {
     width: 0 !important;

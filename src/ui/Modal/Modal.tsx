@@ -19,6 +19,15 @@ const StyledModal = styled.div`
   transition: all 0.5s;
   max-height: 90vh;
   overflow: auto;
+  max-width: 70rem;
+  min-width: 22rem;
+  width: 80%;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   @media screen and (max-width: 768px) {
     padding: 3.2rem 1.5rem;

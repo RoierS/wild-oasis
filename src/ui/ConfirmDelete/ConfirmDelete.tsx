@@ -4,8 +4,6 @@ import Button from '../Button/Button';
 import Heading from '../Heading/Heading';
 
 const StyledConfirmDelete = styled.div`
-  max-width: 40rem;
-  min-width: 27rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -14,6 +12,7 @@ const StyledConfirmDelete = styled.div`
   & p {
     color: var(--color-grey-500);
     margin-bottom: 1.2rem;
+    white-space: pre-line;
   }
 
   & div {
@@ -44,8 +43,8 @@ const ConfirmDelete: React.FC<ComponentProps> = ({
     <StyledConfirmDelete>
       <Heading as="h3">Delete {resourceName}</Heading>
       <p>
-        Are you sure you want to delete this {resourceName} permanently? This
-        action cannot be undone.
+        Are you sure you want to delete this {resourceName} permanently? {'\n'}
+        This action cannot be undone.
       </p>
 
       <div>
