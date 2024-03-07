@@ -10,7 +10,8 @@ import DarkModeToggle from '../DarkModeToggle/DarkModeToggle';
 const StyledHeaderMenu = styled.ul`
   display: flex;
   align-items: center;
-  gap: 1.6rem;
+  justify-content: space-between;
+  gap: 1rem;
 `;
 
 const HeaderMenu: React.FC = () => {

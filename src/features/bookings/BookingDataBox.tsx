@@ -49,10 +49,26 @@ const Header = styled.header`
     font-size: 2rem;
     margin-left: 4px;
   }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 1.2rem;
+    font-size: 1.4rem;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+
+  @media screen and (max-width: 768px) {
+    padding: 1rem 2rem;
+
+    & div:first-child span {
+      display: none;
+    }
+  }
 `;
 
 const Guest = styled.div`
@@ -65,6 +81,11 @@ const Guest = styled.div`
   & p:first-of-type {
     font-weight: 500;
     color: var(--color-grey-700);
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    margin-bottom: 0;
   }
 `;
 
@@ -91,6 +112,12 @@ const Price = styled.div<{ $isPaid: boolean }>`
     height: 2.4rem;
     width: 2.4rem;
     color: currentColor !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 1rem 2rem;
+    margin-top: 0;
   }
 `;
 

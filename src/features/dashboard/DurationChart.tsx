@@ -18,9 +18,9 @@ const ChartBox = styled.div`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
+  grid-area: durationChart;
 
   padding: 2.4rem 3.2rem;
-  grid-column: 3 / span 2;
 
   & > *:first-child {
     margin-bottom: 1.6rem;
@@ -37,6 +37,10 @@ const ChartBox = styled.div`
   & .recharts-sector:focus {
     border: none;
     outline: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 1.5rem;
   }
 `;
 
@@ -58,8 +62,8 @@ const DurationChart: React.FC<IDurationChartProps> = ({ confirmedStays }) => {
             data={data}
             dataKey="value"
             nameKey="duration"
-            innerRadius={80}
-            outerRadius={110}
+            innerRadius="65%"
+            outerRadius="85%"
             cx="50%"
             cy="50%"
             paddingAngle={2}

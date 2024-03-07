@@ -5,8 +5,8 @@ import { styled } from 'styled-components';
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
+  grid-template-columns: 0.7fr 1fr;
+  gap: 1.4rem;
 
   padding: 1.2rem 0;
 
@@ -27,6 +27,22 @@ const StyledFormRow = styled.div`
     justify-content: flex-end;
     gap: 1.2rem;
   }
+
+  @media screen and (max-width: 768px) {
+    gap: 0.4rem;
+    padding: calc(4px + 1.5vw) 0;
+  }
+
+  @media screen and (max-width: 380px) {
+    grid-template-columns: 1fr;
+
+    &:has(button[type='submit']) {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+  }
 `;
 
 const Label = styled.label`
@@ -36,6 +52,11 @@ const Label = styled.label`
 const Error = styled.span`
   font-size: 1.4rem;
   color: var(--color-red-700);
+  grid-column: 2 / 3;
+
+  @media screen and (max-width: 380px) {
+    grid-column: 1 / 2;
+  }
 `;
 
 interface IFormRowProps {

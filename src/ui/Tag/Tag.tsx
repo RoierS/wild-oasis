@@ -7,6 +7,7 @@ const Tag = styled.span<{ $type: string }>`
   font-weight: 600;
   padding: 0.4rem 1.2rem;
   border-radius: 100px;
+  text-align: center;
 
   color: var(--color-${(props) => props.$type}-700);
   background-color: var(--color-${(props) => props.$type}-100);

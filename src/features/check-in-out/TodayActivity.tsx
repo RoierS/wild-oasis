@@ -19,11 +19,16 @@ const StyledToday = styled.div`
   gap: 2.4rem;
   grid-column: 1 / span 2;
   padding-top: 2.4rem;
+  overflow: auto;
+
+  @media screen and (max-width: 768px) {
+    padding: 1.5rem;
+  }
 `;
 
 const TodayList = styled.ul`
-  overflow: scroll;
-  overflow-x: hidden;
+  grid-area: todayActivity;
+  width: fit-content;
 
   &::-webkit-scrollbar {
     width: 0 !important;

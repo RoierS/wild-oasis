@@ -8,6 +8,18 @@ const StyledTable = styled.div`
   font-size: 1.4rem;
   background-color: var(--color-grey-0);
   border-radius: 7px;
+  overflow-x: auto;
+  width: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+`;
+
+const StyledTableContainer = styled.div`
+  min-width: 700px;
+  max-width: 1200px;
 `;
 
 interface CommonRowProps {
@@ -31,6 +43,7 @@ const StyledHeader = styled(CommonRow)`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
+  width: auto;
 `;
 
 const StyledBody = styled.section`
@@ -50,6 +63,7 @@ const Footer = styled.footer`
   display: flex;
   justify-content: center;
   padding: 1.2rem;
+  width: auto;
 
   &:not(:has(*)) {
     display: none;
@@ -77,7 +91,9 @@ interface TableProps {
 const Table = ({ columns, children }: TableProps) => {
   return (
     <TableContext.Provider value={{ columns }}>
-      <StyledTable role="table">{children}</StyledTable>
+      <StyledTable role="table">
+        <StyledTableContainer>{children}</StyledTableContainer>
+      </StyledTable>
     </TableContext.Provider>
   );
 };

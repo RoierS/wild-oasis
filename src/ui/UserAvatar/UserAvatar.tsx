@@ -9,6 +9,12 @@ const StyledUserAvatar = styled.div`
   font-weight: 500;
   font-size: 1.4rem;
   color: var(--color-grey-600);
+
+  @media screen and (max-width: 568px) {
+    & span {
+      display: none;
+    }
+  }
 `;
 
 interface AvatarProps {
@@ -18,8 +24,8 @@ interface AvatarProps {
 
 export const Avatar = styled.img<AvatarProps>`
   display: block;
-  width: 4rem;
-  width: 3.6rem;
+  width: 100%;
+  max-width: 4rem;
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center;
@@ -28,6 +34,13 @@ export const Avatar = styled.img<AvatarProps>`
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 568px) {
+    & {
+      min-width: 3rem;
+      width: 100%;
+    }
   }
 `;
 

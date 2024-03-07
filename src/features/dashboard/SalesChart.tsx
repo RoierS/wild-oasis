@@ -21,7 +21,7 @@ import Heading from '@/ui/Heading/Heading';
 import DashboardBox from './DashboardBox';
 
 const StyledSalesChart = styled(DashboardBox)`
-  grid-column: 1 / -1;
+  grid-area: salesChart;
 
   /* Change grid line colors */
   & .recharts-cartesian-grid-horizontal line,
@@ -120,6 +120,7 @@ const SalesChart: React.FC<ISalesChartProps> = ({
           />
           <CartesianGrid strokeDasharray="4" />
           <Legend
+            align={'center'}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           />

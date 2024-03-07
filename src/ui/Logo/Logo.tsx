@@ -9,6 +9,11 @@ const StyledLogo = styled.div`
 const Img = styled.img`
   height: 9.6rem;
   width: auto;
+
+  @media screen and (max-width: 768px) {
+    height: auto;
+    max-height: 10rem;
+  }
 `;
 
 const Logo = () => {

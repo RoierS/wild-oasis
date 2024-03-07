@@ -11,6 +11,12 @@ const StyledFilter = styled.div`
   padding: 0.4rem;
   display: flex;
   gap: 0.4rem;
+
+  @media screen and (max-width: 380px) {
+    flex-direction: column;
+    gap: 0.4rem;
+    justify-content: center;
+  }
 `;
 
 interface FilterButtonProps {

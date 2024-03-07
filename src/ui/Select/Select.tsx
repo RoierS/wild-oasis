@@ -30,6 +30,10 @@ const StyledSelect = styled.select<IStyledSelectProps>`
   &:focus {
     outline: none;
   }
+
+  @media screen and (max-width: 568px) {
+    padding: 0.6rem 0.4rem;
+  }
 `;
 
 interface ISelectProps {

@@ -5,12 +5,12 @@ import UserAvatar from '../UserAvatar/UserAvatar';
 
 const StyledHeader = styled.header`
   background-color: var(--color-grey-0);
-  padding: 1.2rem 4.8rem;
+  padding: 1.8% 2.8%;
   border-bottom: 1px solid var(--color-grey-100);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 2.4rem;
+  gap: 1.4rem;
 `;
 
 const Header: React.FC = () => {

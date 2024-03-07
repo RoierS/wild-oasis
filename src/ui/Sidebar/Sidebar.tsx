@@ -11,6 +11,19 @@ const StyledSidebar = styled.aside`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
+
+  @media screen and (max-width: 1068px) {
+    padding: 2.2rem 1.4rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 2rem 1rem;
+  }
+
+  @media screen and (max-width: 568px) {
+    padding: 1rem 0.3rem;
+    align-items: center;
+  }
 `;
 
 const Sidebar: React.FC = () => {

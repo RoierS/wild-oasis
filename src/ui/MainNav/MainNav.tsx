@@ -51,6 +51,17 @@ const StyledNavLink = styled(NavLink)`
   &.active:visited svg {
     color: var(--color-brand-600);
   }
+
+  @media screen and (max-width: 768px) {
+    & span {
+      display: none;
+    }
+
+    &:link,
+    &:visited {
+      padding: 0.5rem 0.3rem;
+    }
+  }
 `;
 
 const MainNav: React.FC = () => {

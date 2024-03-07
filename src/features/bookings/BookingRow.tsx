@@ -31,15 +31,25 @@ const Stacked = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+`;
 
-  & span:first-child {
-    font-weight: 500;
-  }
+const StackedSpanIn = styled.span`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-weight: 500;
+`;
 
-  & span:last-child {
-    color: var(--color-grey-500);
-    font-size: 1.2rem;
-  }
+const StackedSpanDate = styled.span`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.4rem;
+  color: var(--color-grey-500);
+  font-size: 1.2rem;
 `;
 
 const Amount = styled.div`
@@ -98,16 +108,21 @@ const BookingRow: React.FC<IBookingrowProps> = ({ booking }) => {
       </Stacked>
 
       <Stacked>
-        <span>
-          {isToday(new Date(startDate ?? 0))
-            ? 'Today'
-            : formatDistanceFromNow(startDate!)}{' '}
-          → {numNights} night stay
-        </span>
-        <span>
-          {format(new Date(startDate ?? 0), 'dd MMM yyyy')} &mdash;{' '}
-          {format(new Date(endDate ?? 0), 'dd MMM yyyy')}
-        </span>
+        <StackedSpanIn>
+          <span>
+            {isToday(new Date(startDate ?? 0))
+              ? 'Today'
+              : formatDistanceFromNow(startDate!)}{' '}
+          </span>
+          <span>→</span>
+          <span> {numNights} night stay</span>
+        </StackedSpanIn>
+        <StackedSpanDate>
+          <span>
+            {format(new Date(startDate ?? 0), 'dd MMM yyyy')} &mdash;{' '}
+          </span>
+          <span>{format(new Date(endDate ?? 0), 'dd MMM yyyy')}</span>
+        </StackedSpanDate>
       </Stacked>
 
       <Tag $type={statusToTagName[status!]}>{status?.replace('-', ' ')}</Tag>

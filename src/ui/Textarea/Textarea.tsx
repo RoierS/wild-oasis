@@ -17,7 +17,8 @@ const Textarea = styled.textarea<TextareaProps>`
   background-color: var(--color-grey-0);
   box-shadow: var(--shadow-sm);
   width: 100%;
-  height: 8rem;
+  height: 10rem;
+  resize: none;
 `;
 
 export default Textarea;

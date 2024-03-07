@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
-const StyledStat = styled.div`
+interface StyledStatProps {
+  name: string;
+}
+
+const StyledStat = styled.div<StyledStatProps>`
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
+  grid-area: ${(props) => props.name};
 
   padding: 1.6rem;
   display: grid;
@@ -54,7 +59,7 @@ interface StatProps {
 
 const Stat: React.FC<StatProps> = ({ icon, title, value, color }) => {
   return (
-    <StyledStat>
+    <StyledStat name={title.toLowerCase().split(' ').join('-')}>
       <Icon color={color}>{icon}</Icon>
       <Title>{title}</Title>
       <Value>{value}</Value>

@@ -54,14 +54,14 @@ const CabinTable: React.FC = () => {
 
   return (
     <Menus>
-      <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+      <Table columns="0.6fr 0.5fr 1.2fr 0.8fr 0.8fr 0.3fr">
         <Table.Header>
           <div>Image</div>
           <div>Cabin</div>
           <div>Capacity</div>
           <div>Price</div>
           <div>Discount</div>
-          <div>Delete</div>
+          <div></div>
         </Table.Header>
         <Table.Body
           data={sortedCabins as ICabin[]}

@@ -4,7 +4,9 @@ import Button from '../Button/Button';
 import Heading from '../Heading/Heading';
 
 const StyledConfirmDelete = styled.div`
-  width: 40rem;
+  max-width: 40rem;
+  min-width: 27rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -18,6 +20,10 @@ const StyledConfirmDelete = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 1.2rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.4rem;
   }
 `;
 

@@ -18,11 +18,21 @@ const $sizes: SizeProps = {
     font-size: 1.4rem;
     padding: 1.2rem 1.6rem;
     font-weight: 500;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.2rem;
+      padding: 2%;
+    }
   `,
   large: css`
     font-size: 1.6rem;
     padding: 1.2rem 2.4rem;
     font-weight: 500;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.4rem;
+      padding: 0.8rem 1.6rem;
+    }
   `,
 };
 
@@ -54,6 +64,7 @@ const $variations: VariationsProps = {
   danger: css`
     color: var(--color-red-100);
     background-color: var(--color-red-700);
+    min-width: 3rem;
 
     &:hover {
       background-color: var(--color-red-800);

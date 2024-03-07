@@ -15,9 +15,28 @@ import Stats from './Stats';
 
 const StyledDashboardLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
+  grid-template-areas:
+    'bookings sales check-ins occupancy-rate'
+    'todayActivity todayActivity durationChart  durationChart'
+    'salesChart salesChart salesChart salesChart';
   gap: 2.4rem;
+  grid-auto-columns: 1fr;
+
+  @media screen and (max-width: 1280px) {
+    grid-template-areas:
+      'bookings check-ins'
+      'occupancy-rate sales'
+      'todayActivity todayActivity'
+      'durationChart durationChart'
+      'salesChart salesChart';
+    gap: 1.4rem;
+  }
+  @media screen and (max-width: 620px) {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2vw;
+  }
 `;
 
 const DashboardLayout: React.FC = () => {

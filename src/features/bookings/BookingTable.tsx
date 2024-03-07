@@ -17,7 +17,7 @@ const BookingTable: React.FC = () => {
 
   return (
     <Menus>
-      <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
+      <Table columns="54px 139px 1.5fr minmax(103px, 1fr) minmax(83px, 1fr) 17px">
         <Table.Header>
           <div>Cabin</div>
           <div>Guest</div>

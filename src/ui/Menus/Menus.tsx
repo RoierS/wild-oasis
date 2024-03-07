@@ -6,6 +6,7 @@ import {
   SyntheticEvent,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
 
@@ -20,7 +21,6 @@ interface MenuProps {
 }
 
 const Menu = styled.div<MenuProps>`
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -59,7 +59,7 @@ interface StyledListProps {
 }
 
 const StyledList = styled.ul<StyledListProps>`
-  position: absolute;
+  position: fixed;
   z-index: 1;
   width: max-content;
 
@@ -162,8 +162,8 @@ const Toggle: React.FC<ToggleProps> = ({ id }) => {
 
     if (rect) {
       setPosition({
-        x: -8,
-        y: rect.height,
+        x: window.innerWidth - rect.width - rect.x,
+        y: rect.y + rect.height + 8,
       });
     }
 
@@ -185,6 +185,22 @@ interface ListProps {
 const List: React.FC<ListProps> = ({ id, children }) => {
   const { openId, close, position } = useContext(MenusContext);
   const { ref } = useOutsideClick<HTMLUListElement>(close, false);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        close();
+      }
+    };
+
+    document.addEventListener('click', handleClick, false);
+    document.addEventListener('scroll', close, true);
+
+    return () => {
+      document.removeEventListener('click', handleClick, false);
+      document.removeEventListener('scroll', close, true);
+    };
+  }, [close, openId, ref]);
 
   if (openId !== id) return null;
 
