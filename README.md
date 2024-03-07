@@ -5,8 +5,14 @@
   Wild Oasis Management App is a web application tailored for hotel employees to manage cabins, bookings, and guest information efficiently. The application ensures that only authorized hotel employees can access its functionalities, providing a secure environment for hotel management tasks.
   </p>
   <div align='center'>
-   <img src="https://github.com/RoierS/wild-oasis/assets/111195111/dd7e7455-021d-436a-9c4f-195e2d873d6b" alt="macbook app view" width="400" height="auto" />
+<!--    <img src="https://github.com/RoierS/wild-oasis/assets/111195111/dd7e7455-021d-436a-9c4f-195e2d873d6b" alt="macbook app view" width="400" height="auto" />
    <img src="https://github.com/RoierS/wild-oasis/assets/111195111/f2eded4b-e54d-49fc-a43d-805738f3d97f" alt="imac app view" width="400" height="auto" />
+    <br/>
+    <br/>
+   <img src="https://github.com/RoierS/wild-oasis/assets/111195111/05fc9d4e-f997-45d2-984b-2bc11666e935" alt="imac app view" width="400" height="auto" />
+    -->
+    <img src="https://github.com/RoierS/wild-oasis/assets/111195111/121d6e98-b6e4-4789-9d4d-35dbb9d1510d" alt="imac app view" width="100%" height="auto" />
+
   </div>
 </div>
 
