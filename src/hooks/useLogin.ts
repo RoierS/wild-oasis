@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
+import { uploadAllData } from '@/data/uploadAllData';
 import { loginUser } from '@/services/apiAuth';
 import { ILoginForm } from '@/types/loginForm';
 
@@ -10,8 +11,11 @@ export const useLogin = () => {
   const navigate = useNavigate();
 
   const { mutate: login, isPending: isLoggingIn } = useMutation({
-    mutationFn: ({ email, password }: ILoginForm) =>
-      loginUser({ email, password }),
+    mutationFn: async ({ email, password }: ILoginForm) => {
+      const user = await loginUser({ email, password });
+      await uploadAllData(); // Upload actual sample data
+      return user;
+    },
     onSuccess: (user) => {
       queryClient.setQueryData(['user'], user.user);
 
